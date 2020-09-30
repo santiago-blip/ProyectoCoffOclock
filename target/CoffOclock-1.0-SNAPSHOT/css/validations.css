@@ -1,0 +1,49 @@
+.inputs{
+    position: relative;
+}
+.validacion-campo{
+    position: absolute;
+    right: 25px;
+    top: 7px;
+    color: red;
+    z-index: 100;
+    opacity: 0; 
+}
+.error{
+    margin-bottom: 0;
+    display: none;
+}
+.error-activo{
+    display: block;
+}
+.form-message{
+    height: 45px;
+    line-height: 45px;
+    background: red;
+    padding: 0 15px;
+    border-radius: 4px;
+    display: none;
+}
+.form-message-activo{
+    display: block;
+}
+.message-exitoso{
+    font-size: 24px;
+    color: #119200;
+    display: none;
+}
+.message-exitoso-activo{
+    display: block;
+}
+.campo-valido .validacion-campo{
+    color: #1ed12d;
+    opacity: 1;
+}
+.campo-invalido .campo{
+    border: solid 3px red;
+}
+.campo-invalido .validacion-campo{
+    color: red;
+    opacity: 1;
+}
+

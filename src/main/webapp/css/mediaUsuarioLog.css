@@ -1,0 +1,13 @@
+@media screen and (max-width:1184px){
+    .menu ul{
+        display: none;
+    }
+    .bars{
+        display: block;
+        width: 30px;
+        height: 30px;
+        align-self: center;
+        margin-right: 25px;
+        z-index: 4;
+    }
+}
