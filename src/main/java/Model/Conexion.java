@@ -11,16 +11,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-/**
- *
- * @author santi
- */
 public class Conexion {
     private static Connection con = null;
     private static PreparedStatement st = null;
     private static ResultSet rs = null;
+    
     public static Connection conexion() {
-
         try {
             //Cargar driver de conexión.
           Class.forName("com.mysql.jdbc.Driver");

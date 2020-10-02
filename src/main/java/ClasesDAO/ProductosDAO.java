@@ -99,9 +99,10 @@ public class ProductosDAO {
             st.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Error al eliminar por_: " + e);
-        } finally {
+        }finally{
             Conexion.cerrar(con);
             Conexion.cerrar(st);
+            Conexion.cerrar(rs);
         }
     }
 
@@ -116,6 +117,10 @@ public class ProductosDAO {
                 ruta = rs.getString("RutaImg_Producto");
             }
         } catch (SQLException e) {
+        }finally{
+            Conexion.cerrar(con);
+            Conexion.cerrar(st);
+            Conexion.cerrar(rs);
         }
         return ruta;
     }
@@ -131,6 +136,10 @@ public class ProductosDAO {
                 resultado++;
             }
         } catch (SQLException e) {
+        }finally{
+            Conexion.cerrar(con);
+            Conexion.cerrar(st);
+            Conexion.cerrar(rs);
         }
         return resultado;
     }

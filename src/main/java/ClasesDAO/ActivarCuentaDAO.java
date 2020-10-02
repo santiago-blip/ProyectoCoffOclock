@@ -33,6 +33,10 @@ public class ActivarCuentaDAO {
             }
         } catch (SQLException e) {
             System.out.println("No se pudo activar el usuario por: " + e);
+        } finally {
+            Conexion.cerrar(con);
+            Conexion.cerrar(st);
+            Conexion.cerrar(rs);
         }
         return activar;
     }
@@ -45,9 +49,12 @@ public class ActivarCuentaDAO {
             st.setString(1, code);
             st.setString(2, user);
             realizado = st.executeUpdate();
-        }catch (SQLException e) {
+        } catch (SQLException e) {
             System.out.println("No se pudo activar el usuario por: " + e);
-}
+        } finally {
+            Conexion.cerrar(con);
+            Conexion.cerrar(st);
+        }
         return realizado;
-}
+    }
 }

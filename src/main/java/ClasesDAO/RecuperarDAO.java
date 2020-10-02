@@ -32,6 +32,9 @@ public class RecuperarDAO {
             resultado = st.executeUpdate();
         } catch (SQLException e) {
             System.out.println("No se pudo recuperar la contraseña por: " + e);
+        }finally{
+            Conexion.cerrar(con);
+            Conexion.cerrar(st);
         }
         return resultado;
     }
@@ -47,6 +50,9 @@ public class RecuperarDAO {
             st.executeUpdate();
         } catch (SQLException e) {
             System.out.println("No se pudo cambiar la contraseña por: " + e);
+        }finally{
+            Conexion.cerrar(con);
+            Conexion.cerrar(st);
         }
     }
 

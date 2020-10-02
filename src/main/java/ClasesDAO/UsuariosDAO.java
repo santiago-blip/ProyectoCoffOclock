@@ -23,7 +23,7 @@ public class UsuariosDAO {
     ResultSet rs = null;
     Encriptar enc = new Encriptar();
     public int insertarUsuario(Usuario usuario){
-        int rs = 0;
+        int res = 0;
         try {
         con = Conexion.conexion();
         st = con.prepareStatement("INSERT INTO tbl_usuarios (Id_Rol,Nombre_Usuario,Apellido_Usuario,TipoDocumento_Usuario,DocumentoIdentidad_Usuario,CorreoElectronico_Usuario,Contrasena_Usuario,Estado_Usuario,Codigo_Usuario) VALUES (?,?,?,?,?,?,?,?,?)");
@@ -36,14 +36,14 @@ public class UsuariosDAO {
         st.setString(7, enc.encriptar(usuario.getContrasena_Usuario()));
         st.setBoolean(8, usuario.isEstado_Usuario());
         st.setString(9, usuario.getCodigo());
-        rs = st.executeUpdate();
+        res = st.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Error al insertar por... "+e);
         }finally{
             Conexion.cerrar(con);
             Conexion.cerrar(st);
         }
-        return rs;
+        return res;
     }
     
     public int buscarCorreo(Usuario usuario){

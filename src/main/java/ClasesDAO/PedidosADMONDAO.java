@@ -40,6 +40,10 @@ public class PedidosADMONDAO {
             }
         } catch (SQLException e) {
             System.out.println("No se puede traer los pedidos por : " + e);
+        }finally{
+            Conexion.cerrar(con);
+            Conexion.cerrar(st);
+            Conexion.cerrar(rs);
         }
         return lista;
     }
@@ -62,6 +66,10 @@ public class PedidosADMONDAO {
             }
         } catch (SQLException e) {
             System.out.println("No se puede traer los pedidos por : " + e);
+        }finally{
+            Conexion.cerrar(con);
+            Conexion.cerrar(st);
+            Conexion.cerrar(rs);
         }
         return lista;
     }

@@ -35,6 +35,9 @@ public class PedidoDAO {
             st.executeUpdate();
         } catch (SQLException e) {
             System.out.println("No se puede ingresar el pedido por: "+e);
+        }finally{
+            Conexion.cerrar(con);
+            Conexion.cerrar(st);
         }
     }
     
@@ -61,6 +64,10 @@ public class PedidoDAO {
             }
         } catch (SQLException e) {
             System.out.println("No se pudo insertar el pedido por: " + e);
+        }finally{
+            Conexion.cerrar(con);
+            Conexion.cerrar(st);
+            Conexion.cerrar(rs);
         }
         return lista;
     }
@@ -75,6 +82,10 @@ public class PedidoDAO {
             }
         } catch (SQLException e) {
             System.out.println("No se pudo traer el identificador por: " + e);
+        }finally{
+            Conexion.cerrar(con);
+            Conexion.cerrar(st);
+            Conexion.cerrar(rs);
         }
 //        if(ident == 0){
 //            ident = 1;
