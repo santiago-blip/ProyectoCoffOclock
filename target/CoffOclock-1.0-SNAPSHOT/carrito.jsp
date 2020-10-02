@@ -169,44 +169,5 @@
         <script src="js/EliminarCarro.js" type="text/javascript"></script>
     </body>
 </html>
-<%--
-<%                                                        <
-            % Connection con = null;
-    PreparedStatement st = null;
-    ResultSet rs = null;
-    Integer id = (Integer) sesion.getAttribute("IdUsuario");
-    try {
-        con = Conexion.conexion();
-        st = con.prepareStatement("SELECT * FROM tbl_ccompras WHERE Id_Usuario = ?");
-        st.setInt(1, id);
-        rs = st.executeQuery();
-        while (rs.next()) {
-            <tr>
-< td > < %= rs.getInt("Id_Producto")%></td>
-<td><%=rs.getString("Nombre_Producto")%></td>
-<td><img src="<%=rs.getString("RutaImg_Producto")%>" style="width: 150px; height: 150px"></td>
-<td><%=rs.getString("Precio_Producto")%></td>
-<td>
-    <input type="hidden" value="1" class="idpCam">
-    <input type="number" value="<%= rs.getInt("Cantidad_Producto")%>" min="1" id="cantidad" class="form-control text-center cantidad">
-</td>
-<td><%=rs.getDouble("Precio_Pagar")%></td>
-<td>
-    <input type="hidden" id="idC" value="1" class="idC">
-    <a href="" id="btndelete"  class="btn btn-outline-info btn-block btndelete">Eliminar</a>
-</td>
-</tr>
 
-%>
-
-}
-} catch (SQLException e) {
-System.out.println("Error al insertar en el carrito " + e);
-} finally {
-Conexion.cerrar(con);
-Conexion.cerrar(st);
-Conexion.cerrar(rs);
-}
-%>
---%>
 

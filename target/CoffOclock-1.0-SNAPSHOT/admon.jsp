@@ -72,7 +72,7 @@ if(sesion.getAttribute("log")==null){
                             <a class="nav-link active" href="admon.jsp">Inicio</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="ControllerPedidosADMIN">Pedidos</a>
+                            <a class="nav-link" href="ControllerPedidosADMIN?accion=verPedidos">Pedidos</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="inventario.jsp">Inventario</a>

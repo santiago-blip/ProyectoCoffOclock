@@ -143,7 +143,7 @@ public class ProductosDAO {
             st.setInt(1, id);
             rs = st.executeQuery();
             if (rs.next()) {
-                archivo = new File("D:\\ProgramasDevops\\NetBeans\\CoffOclock\\src\\main\\webapp\\imgProductos\\" + rs.getString("RutaImg_Producto"));
+                archivo = new File("D:\\ProgramasDevops\\NetBeans\\CoffOclock\\src\\main\\webapp\\"+ rs.getString("RutaImg_Producto"));
                 //archivo = new File("web\\" + rs.getString("RutaImg_Producto"));
             }
         } catch (SQLException e) {

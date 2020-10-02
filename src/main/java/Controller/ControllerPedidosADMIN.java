@@ -6,8 +6,12 @@
 package Controller;
 
 import Clases.Pedido;
+import Clases.PedidosADMON;
+import Clases.Ventas;
 import ClasesDAO.PedidosADMONDAO;
+import ClasesDAO.VentasDAO;
 import java.io.IOException;
+import static java.lang.System.out;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
@@ -35,18 +39,51 @@ public class ControllerPedidosADMIN extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession sesion = request.getSession();
-        List<Pedido> listaPadmin = new ArrayList<>();
+        String accion = request.getParameter("accion");
         PedidosADMONDAO PadminDAO = new PedidosADMONDAO();
-        listaPadmin = PadminDAO.retornarTodo();
-        //Primer listado para posiciones
-        
+        switch (accion) {
+            case "verPedidos":
+                List<PedidosADMON> listaPadmin = new ArrayList<>();
+                listaPadmin = PadminDAO.retornarTodo();
+                //Primer listado para posiciones
 //        List<List> listaPadminResultado = new ArrayList<>();
 //        listaPadminResultado = PadminDAO.retornarPedidos(listaPadmin);
-        //Listado para resultado
-        sesion.setAttribute("ListaPADMON", listaPadmin);
-        
-        request.getRequestDispatcher("pedidos.jsp").forward(request, response);
-        //response.sendRedirect("pedidos.jsp");
+                //Listado para resultado
+                sesion.setAttribute("ListaPADMON", listaPadmin);
+                request.getRequestDispatcher("pedidos.jsp").forward(request, response);
+                //response.sendRedirect("pedidos.jsp");
+                break;
+            case "verCliente":
+               int identificador = Integer.parseInt(request.getParameter("identificador"));
+               List<PedidosADMON> Padmin = new ArrayList<>();
+               Padmin = PadminDAO.retornarCliente(identificador);
+               
+                System.out.println("Tamaño de la lista que trae: "+Padmin.size());
+               
+               request.setAttribute("Usuario", Padmin);
+               request.getRequestDispatcher("UsuarioPedido.jsp").forward(request, response);
+               break;
+            case "RealizarVenta":
+                int identificadorVenta = Integer.parseInt(request.getParameter("identificadorVenta"));
+                int resultado = 0;
+                Ventas venta;
+                List<Pedido> lista;
+                //Empezamos proceso
+                VentasDAO vDAO = new VentasDAO();
+                venta = vDAO.venta(identificadorVenta);
+                lista = vDAO.Listarventa(identificadorVenta);
+                resultado = vDAO.RelizarVenta(venta, lista);
+                System.out.println("Lisa que trae : "+lista.size());
+                out.println("Resultado de vDao.realizarVENTA es : "+resultado);
+                if(resultado>0){
+                    request.setAttribute("ResultadoVenta", resultado);
+                }else{
+                    request.setAttribute("ResultadoVenta", resultado);
+                }
+                request.getRequestDispatcher("UsuarioPedido.jsp").forward(request, response);
+                break;
+        }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -200,8 +200,12 @@
                                             <input type="hidden" value="<%= rs.getInt("Id_Producto")%>" class="btn btn-outline-success m-lg-2" name="id"> <%--<a href='FormularioEdit.jsp?id=<%= rs.getInt("Id_Producto")%>' class="btn btn-outline-success m-lg-2" >Editar</a>--%>
                                             <button type="submit" class="btn btn-outline-success btn-block m-lg-2" data-toggle="modal" data-target="#editProductModal">Editar</button>
                                         </form>
-                                        <a  href=""  onclick="eliminarFunc(<%= rs.getInt("Id_Producto")%>)" class="btn btn-outline-danger btn-block m-lg-2" >Eliminar <!--href="../EliminarProducto?id=%= rs.getInt("Id_Producto")%>"-->
+                                        <input type="hidden" name="idProductoEliminar" class="idProductoEliminar" value="<%= rs.getInt("Id_Producto")%>">                                                                    
+                                        <button  type="button" class="btn btn-outline-danger btn-block m-lg-2 btndeleteProducto" >Eliminar</button>
+                                        <!--                                                    
+                                         <a  href=""  onclick="eliminarFunc(<%--<%= rs.getInt("Id_Producto")%> --%>)" class="btn btn-outline-danger btn-block m-lg-2" >Eliminar <!--href="../EliminarProducto?id=%= rs.getInt("Id_Producto")%>"
                                         </a>
+                                        -->     
                                     </td>
                                 </tr>
                                 <%}
@@ -219,8 +223,8 @@
 
 
         <!-- Modal -->
- 
-        
+
+
         <!-- MODAL EDITAR -->
 
 
@@ -257,7 +261,7 @@
 
 
         <!--Scripts-->
-        <script src="js/jsEliminar.js"></script>
+
         <!-- Vendor JS Files -->
         <script src="assets/vendor/jquery/jquery.min.js"></script>
         <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -265,10 +269,12 @@
         <script src="assets/vendor/php-email-form/validate.js"></script>
         <script src="assets/vendor/owl.carousel/owl.carousel.min.js"></script>
         <script src="assets/vendor/scrollreveal/scrollreveal.min.js"></script>
-        <!-- Template Main JS File -->
+        <!-- Template Main JS File --> 
         <script src="assets/js/main.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
+        <script src="js/jsEliminar.js"></script>
+        <script src="js/EliminarProducto.js"></script>
         <!--Fin scripts-->
     </body>
 </html>

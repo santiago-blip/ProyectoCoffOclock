@@ -1,13 +1,13 @@
+
 package Clases;
 
 import java.util.List;
-
 
 public class Pedido {
     private int Id_Pedido;
     private int Identificador_Pedido;
     private int Id_Usuario;
-//    private int Id_Carrito;
+    private int Id_Producto;
     private String Codigo_pedido;
     private String Nombre_Producto;
     private double Precio_Producto;                  
@@ -23,7 +23,7 @@ public class Pedido {
     }
 
     
-    public Pedido(int Identificador_Pedido, int Id_Usuario, String Codigo_pedido, String Nombre_Producto, double Precio_Producto, int Cantidad_Producto, double Total_Producto, boolean Estado_Pedido, String Fecha_Pedido, double Precio_Pedido) {
+    public Pedido(int Identificador_Pedido, int Id_Usuario, String Codigo_pedido, String Nombre_Producto, double Precio_Producto, int Cantidad_Producto, double Total_Producto, boolean Estado_Pedido, String Fecha_Pedido, double Precio_Pedido,int Id_Producto) {
         this.Identificador_Pedido = Identificador_Pedido;
         this.Id_Usuario = Id_Usuario;
         this.Codigo_pedido = Codigo_pedido;
@@ -34,6 +34,7 @@ public class Pedido {
         this.Estado_Pedido = Estado_Pedido;
         this.Fecha_Pedido = Fecha_Pedido;
         this.Precio_Pedido = Precio_Pedido;
+        this.Id_Producto = Id_Producto;
     }
 
     public int getId_Pedido() {
@@ -139,11 +140,12 @@ public class Pedido {
     public void setLista(List<Pedido> lista) {
         this.lista = lista;
     }
-                     
-                     
-                     
- 
-            }
-    
 
-    
+    public int getId_Producto() {
+        return Id_Producto;
+    }
+
+    public void setId_Producto(int Id_Producto) {
+        this.Id_Producto = Id_Producto;
+    }
+}

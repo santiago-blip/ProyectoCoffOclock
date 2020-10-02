@@ -1,5 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page import="Controller.ControllerPedidosADMIN" %>
 <!DOCTYPE html>
 <html>
 
@@ -101,15 +102,11 @@
                     </div>
                     <div class="col-7">
                         <div class="credencial">
-                            <p>s</p>
-                            <p>${P.getIdentificador_Pedido()}</p>
-                            <p>id: ${P.getId_Usuario()}</p>
-                            <p>2 empanadas-2 gaseosas-3 bombones-1 torta</p>
-                            <p>Total: 10500</p>
-                            <input type="submit" name="cancelar" id="cancelar" class="btn btn-outline-danger"
-                                value="Cancelar">
-                            <input type="submit" name="cancelar" id="cancelar" class="btn btn-outline-success"
-                                value="Aceptar">
+                            <p>${P.getIdentificadoPedido()}</p>
+                            <p>${P.getNombre()} ${P.getApellido()}</p>
+                            <p>Código: ${P.getCodigoPedido()}</p>
+                            <p>Fecha: ${P.getFechaVenta()}</p>
+                            <a href="ControllerPedidosADMIN?accion=verCliente&identificador=${P.getIdentificadoPedido()}" class="btn btn-outline-primary btn-block">Ver más</a>
                             <!-- <button type="button" class="btn btn-outline-danger">Cancelar</button>
                             <button type="button" class="btn btn-outline-success">Aceptar</button> -->
                         </div>

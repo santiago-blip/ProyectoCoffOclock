@@ -22,7 +22,9 @@ public class Conexion {
     public static Connection conexion() {
 
         try {
+            //Cargar driver de conexión.
           Class.forName("com.mysql.jdbc.Driver");
+          //Conectar a la bd.
           con = DriverManager.getConnection("jdbc:mysql://localhost:3306/proyecto?useSSL=false&serverTimezone=UTC", "root", "");
         } catch (SQLException ex) {
             System.out.println("Error al hacer la conexión: " + ex);

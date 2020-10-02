@@ -59,6 +59,7 @@ public class ControllerProductos extends HttpServlet {
                         FileItem fileItem = (FileItem) items.get(i);
                         if (!fileItem.isFormField()) {
                             f = new File("D:\\ProgramasDevops\\NetBeans\\CoffOclock\\src\\main\\webapp\\imgProductos\\" + fileItem.getName());
+//                            D:\ProgramasDevops\NetBeans\CoffOclock\target\CoffOclock-1.0-SNAPSHOT\imgProductos
                             if (!f.exists()) {
                                 fileItem.write(f);
                                 productos.setRutaImg_Producto("imgProductos/" + f.getName());
@@ -179,10 +180,13 @@ public class ControllerProductos extends HttpServlet {
                 
                 String ruta = null;
                 ruta = pDAO.TraerImagenNoBorrar(id);
+                System.out.println("La ruta que trae es: "+ruta);//Verificaciones(borrable)
                 int resultado = 0;
                 resultado = pDAO.ImagenNoBorrar(ruta);
+                System.out.println("El resultado que trae es: "+resultado); //Verificaciones(borrable)
+                System.out.println("El fichero es: "+fichero);//Verificaciones(borrable)
                 if (resultado ==1) {
-                    if (fichero.delete()) {
+                    if (fichero.delete()){
                         System.out.println("El fichero ha sido borrado satisfactoriamente");
                     } else {
                         System.out.println("El fichero no puede ser borrado");
@@ -191,6 +195,10 @@ public class ControllerProductos extends HttpServlet {
                     System.out.println("No se puede eliminar el fichero porque está siendo utilizado más de 1 vez");
                 }
                 pDAO.eliminarProducto(id);
+                request.getRequestDispatcher("productos.jsp").forward(request, response);
+                break;
+            case "IrVista":
+                request.getRequestDispatcher("productos.jsp").forward(request, response);
                 break;
         }
     }

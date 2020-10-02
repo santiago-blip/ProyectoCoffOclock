@@ -135,7 +135,8 @@ public class ControllerCarrito extends HttpServlet {
 //                   String fecha = new Date().toString();
                 boolean estado = false;
                 for(int i=0;i<listarCarroP.size();i++){
-                    Pedido pedido = new Pedido(identificador, listarCarroP.get(i).getIdUsuario(),codigo, listarCarroP.get(i).getNombre_Producto(), listarCarroP.get(i).getPrecio_producto(), listarCarroP.get(i).getCantidad_Producto(), listarCarroP.get(i).getPrecioPagar(), estado, fecha, totalPagar);
+                    Pedido pedido = new Pedido(identificador, listarCarroP.get(i).getIdUsuario(),codigo, listarCarroP.get(i).getNombre_Producto(), listarCarroP.get(i).getPrecio_producto(), listarCarroP.get(i).getCantidad_Producto(), listarCarroP.get(i).getPrecioPagar(), estado, fecha, totalPagar,listarCarroP.get(i).getIdProducto());
+                    System.out.println("EL ID QUE TRAE ES : "+listarCarroP.get(i).getIdProducto());
                     Pdao.generarPedido(pedido);
                 }
                 sesion.setAttribute("Pedido", "si");
@@ -143,6 +144,7 @@ public class ControllerCarrito extends HttpServlet {
                 }else{
                     sesion.setAttribute("Pedido", "no");
                 }
+                
                 response.sendRedirect("ControllerCarrito?accion=MostrarCarro");
                 break;
         }

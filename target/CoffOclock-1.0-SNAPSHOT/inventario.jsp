@@ -73,7 +73,7 @@
                                 <a class="nav-link" href="admon.jsp">Inicio</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="pedidos.jsp">Pedidos</a>
+                                <a class="nav-link" href="ControllerPedidosADMIN?accion=verPedidos">Pedidos</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link active" href="inventario.jsp">Inventario</a>

@@ -20,18 +20,18 @@ public class PedidoDAO {
     public void generarPedido(Pedido p){
         try {
             con = Conexion.conexion();
-            st = con.prepareStatement("INSERT INTO tbl_pedidos (Identificador_Pedido,Id_Usuario,Codigo_pedido,Nombre_Producto,Precio_Producto,Cantidad_Producto,Total_Producto,Estado_Pedido,Fecha_Pedido,Precio_Pedido) VALUES (?,?,?,?,?,?,?,?,?,?)");
+            st = con.prepareStatement("INSERT INTO tbl_pedidos (Identificador_Pedido,Id_Usuario,Codigo_pedido,Id_Producto,Nombre_Producto,Precio_Producto,Cantidad_Producto,Total_Producto,Estado_Pedido,Fecha_Pedido,Precio_Pedido) VALUES (?,?,?,?,?,?,?,?,?,?,?)");
             st.setInt(1, p.getIdentificador_Pedido());
             st.setInt(2, p.getId_Usuario());
-//            st.setInt(3, p.getId_Carrito());
             st.setString(3, p.getCodigo_pedido());
-            st.setString(4, p.getNombre_Producto());
-            st.setDouble(5, p.getPrecio_Producto());
-            st.setInt(6, p.getCantidad_Producto());
-            st.setDouble(7, p.getTotal_Producto());
-            st.setBoolean(8, p.isEstado_Pedido());
-            st.setString(9, p.getFecha_Pedido());
-            st.setDouble(10, p.getPrecio_Pedido());
+            st.setInt(4, p.getId_Producto());
+            st.setString(5, p.getNombre_Producto());
+            st.setDouble(6, p.getPrecio_Producto());
+            st.setInt(7, p.getCantidad_Producto());
+            st.setDouble(8, p.getTotal_Producto());
+            st.setBoolean(9, p.isEstado_Pedido());
+            st.setString(10, p.getFecha_Pedido());
+            st.setDouble(11, p.getPrecio_Pedido());
             st.executeUpdate();
         } catch (SQLException e) {
             System.out.println("No se puede ingresar el pedido por: "+e);
