@@ -76,7 +76,7 @@ public class CarritoDAO {
                 System.out.println("No se puede agregar el producto al carro");
                 cantidad = rs.getInt("Cantidad_Producto") + 1;
                 precioPagar = (rs.getDouble("Precio_Producto") * cantidad);
-                this.ActualizarCantidadCC(cantidad, precioPagar, rs.getInt("Id_Producto"),c.getIdUsuario());
+                this.ActualizarCantidadCC(cantidad, precioPagar, rs.getInt("Id_Producto"), c.getIdUsuario());
             } else {
                 st = con.prepareStatement("INSERT INTO tbl_ccompras (Id_Usuario,Id_Producto,Descripcion_Producto,Nombre_Producto,Precio_Producto,Cantidad_Producto,Precio_Pagar,RutaImg_Producto) VALUES (?,?,?,?,?,?,?,?)");
                 st.setInt(1, c.getIdUsuario());
@@ -118,6 +118,21 @@ public class CarritoDAO {
                 car.setPrecioPagar(rs.getDouble("Precio_Pagar"));
                 lista.add(car);
             }
+            //Ciclo para recorrer el carro de compras y ver que no hayan productos que estén agotados.
+            for (int i = 0; i < lista.size(); i++) {
+                st = con.prepareStatement("SELECT Cantidad_Producto FROM tbl_productos WHERE Id_Producto = ?");
+                st.setInt(1, lista.get(i).getIdProducto());
+                rs = st.executeQuery();
+                while(rs.next()) {
+                    System.out.println("Entro al if de que encontró");
+                    System.out.println("El cantidad producto que trae es: " + rs.getInt("Cantidad_Producto"));
+                    System.out.println("Cantidad de producto de: " + lista.get(i).getNombre_Producto() + " es de: " + lista.get(i).getCantidad_Producto());
+                    if (rs.getInt("Cantidad_Producto") == 0) {
+                        this.EliminarCarro(lista.get(i).getIdProducto(), lista.get(i).getIdUsuario());
+                    }
+                }
+            }
+
         } catch (SQLException e) {
             System.out.println("Error al insertar en el carrito " + e);
         } finally {
@@ -128,14 +143,14 @@ public class CarritoDAO {
         return lista;
     }
 
-    public void ActualizarCantidadCC(int cantidad, double precio, int idP,int idU) {
+    public void ActualizarCantidadCC(int cantidad, double precio, int idP, int idU) {
         try {
             con = Conexion.conexion();
             st = con.prepareStatement("UPDATE tbl_ccompras SET Cantidad_Producto = ?, Precio_Pagar = ? WHERE Id_Producto = ? AND Id_Usuario = ?");
             st.setInt(1, cantidad);
             st.setDouble(2, precio);
             st.setInt(3, idP);
-            st.setInt(4,idU);
+            st.setInt(4, idU);
             st.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Error al actualizar en el carrito " + e);
@@ -145,7 +160,7 @@ public class CarritoDAO {
         }
     }
 
-    public void EliminarCarro(int idP,int idUser) {
+    public void EliminarCarro(int idP, int idUser) {
         try {
             con = Conexion.conexion();
             st = con.prepareStatement("DELETE FROM tbl_ccompras WHERE Id_Producto = ? AND Id_Usuario=?");

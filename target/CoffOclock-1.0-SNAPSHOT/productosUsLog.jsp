@@ -16,15 +16,15 @@
 <%@page import="Controller.ControllerUser" %>
 <!DOCTYPE html>
 <%
-
+response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
     HttpSession sesion = request.getSession();
 
     if (sesion.getAttribute("log") == null) {
-        response.sendRedirect("UsuarioLog.jsp");
+        response.sendRedirect("index.jsp");
     } else {
         if (sesion.getAttribute("log").equals("0")) {
             response.sendRedirect("index.jsp");
-        } else if (!sesion.getAttribute("log").equals("1")) {
+        }else if (!sesion.getAttribute("log").equals("1")) {
             response.sendRedirect("admon.jsp");
         }
     }
@@ -82,7 +82,7 @@
         <!--Posiciones absolutas y modal-->
 
         <!--Fin posiciones absolutas y modal-->
-        <div class="container" style="margin-top: 150px;">   
+        <div class="container-fluid" style="margin-top: 100px;">   
             <div class="row">
                 <%--  <%      try {
                           Connection con = Conexion.conexion();
@@ -92,8 +92,8 @@
                   %> --%>
 
                 <c:forEach var="p" items="${Listado}" >
-                    <div class="col-md-4 ">
-                        <div class="card col-lg-12" style="width: 18rem;">
+                    <div class="m-5" >
+                        <div class="card col-lg-12" >
                             <label class="font-weight-bold text-center">${p.getNombre_Producto()}</label>
                             <div class="card-body">
 

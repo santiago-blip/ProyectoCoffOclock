@@ -109,7 +109,7 @@ public class ControllerCarrito extends HttpServlet {
                 System.out.println("Listado" + listaCarro);
                 System.out.println("TotalPagar = " + totalPagar);
                 sesion.setAttribute("TotalPagar", totalPagar);
-                request.getRequestDispatcher("carrito.jsp").forward(request, response);
+                response.sendRedirect("carrito.jsp");
                 break;
             case "EliminarCarrito":
                 int idC = Integer.parseInt(request.getParameter("idC"));
@@ -124,7 +124,7 @@ public class ControllerCarrito extends HttpServlet {
                 PedidoDAO Pdao = new PedidoDAO();
                 listarCarroP = Pdao.SeleccionarCarro(idCliente);
                 System.out.println("Tamaño mi lista: "+listarCarroP.size());
-                if(listarCarroP.size()>0){
+                if(listarCarroP.size()>=1){
 //                identificador +=1;
                 identificador = Pdao.ident();
                     System.out.println("Identicador que trae: "+identificador);
@@ -145,7 +145,7 @@ public class ControllerCarrito extends HttpServlet {
                     sesion.setAttribute("Pedido", "no");
                 }
                 
-                response.sendRedirect("ControllerCarrito?accion=MostrarCarro");
+                request.getRequestDispatcher("ControllerCarrito?accion=MostrarCarro").forward(request, response);
                 break;
         }
     }

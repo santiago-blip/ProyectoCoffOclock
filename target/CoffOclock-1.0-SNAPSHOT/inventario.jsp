@@ -5,10 +5,10 @@
 --%>
 
 <%
+    response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
     HttpSession sesion = request.getSession();
-
     if (sesion.getAttribute("log") == null) {
-        response.sendRedirect("admon.jsp");
+        response.sendRedirect("index.jsp");
     } else {
         if (sesion.getAttribute("log").equals("0")) {
             response.sendRedirect("index.jsp");

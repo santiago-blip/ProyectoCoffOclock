@@ -7,26 +7,24 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="javax.servlet.http.HttpSession"%>
 <%@page import="Controller.ControllerUser" %>
+
 <!DOCTYPE html>
-<%--<%
-HttpSession sesion = request.getSession();
-
-if(sesion.getAttribute("logAdmin")==null ||  !sesion.getAttribute("logAdmin").equals("2")){
-    response.sendRedirect("index.jsp");
-}
-%>--%>
+<%--
+<script type="text/javascript">
+history.forward();
+</script>--%>
 <%
-HttpSession sesion = request.getSession();
-
-if(sesion.getAttribute("log")==null){
-    response.sendRedirect("index.jsp");
-}else{
-    if(sesion.getAttribute("log").equals("0")){
-    response.sendRedirect("index.jsp");
-    }else if(!sesion.getAttribute("log").equals("2")){
-       response.sendRedirect("UsuarioLog.jsp"); 
+    response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
+    HttpSession sesion = request.getSession();
+    if (sesion.getAttribute("log") == null) {
+        response.sendRedirect("index.jsp");
+    } else {
+        if (sesion.getAttribute("log").equals("0")) {
+            response.sendRedirect("index.jsp");
+        } else if (!sesion.getAttribute("log").equals("2")) {
+            response.sendRedirect("UsuarioLog.jsp");
+        }
     }
-}
 %>
 <html>
     <head>
@@ -78,7 +76,7 @@ if(sesion.getAttribute("log")==null){
                             <a class="nav-link" href="inventario.jsp">Inventario</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="ventas.jsp">Ventas</a>
+                            <a class="nav-link" href="ControllerGraficas?accion=VerGrafica">Ventas</a>
                         </li>
                     </ul>
                 </div>

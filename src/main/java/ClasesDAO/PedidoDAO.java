@@ -17,7 +17,8 @@ public class PedidoDAO {
     ResultSet rs;
     int r = 0;
 
-    public void generarPedido(Pedido p){
+    public void generarPedido(Pedido p) {
+        if(p.getCantidad_Producto()>0){
         try {
             con = Conexion.conexion();
             st = con.prepareStatement("INSERT INTO tbl_pedidos (Identificador_Pedido,Id_Usuario,Codigo_pedido,Id_Producto,Nombre_Producto,Precio_Producto,Cantidad_Producto,Total_Producto,Estado_Pedido,Fecha_Pedido,Precio_Pedido) VALUES (?,?,?,?,?,?,?,?,?,?,?)");
@@ -34,14 +35,13 @@ public class PedidoDAO {
             st.setDouble(11, p.getPrecio_Pedido());
             st.executeUpdate();
         } catch (SQLException e) {
-            System.out.println("No se puede ingresar el pedido por: "+e);
-        }finally{
+            System.out.println("No se puede ingresar el pedido por: " + e);
+        } finally {
             Conexion.cerrar(con);
             Conexion.cerrar(st);
         }
     }
-    
-    
+    }
     public List<Carrito> SeleccionarCarro(int id) {
         List<Carrito> lista = new ArrayList<>();
         Carrito car;
@@ -62,9 +62,21 @@ public class PedidoDAO {
                 car.setPrecioPagar(rs.getDouble("Precio_Pagar"));
                 lista.add(car);
             }
+            //Ciclo para recorrer el carro de compras y ver que no hayan pedidos que exedan la cantidad de producto disponible.
+            for (int i = 0; i < lista.size(); i++) {
+                System.out.println("Entro al ciclo sí");
+                st = con.prepareStatement("SELECT * FROM tbl_productos WHERE Id_Producto = ?");
+                st.setInt(1, lista.get(i).getIdProducto());
+                rs = st.executeQuery();
+                if (rs.next()) {
+                    if (lista.get(i).getCantidad_Producto() > rs.getInt("Cantidad_Producto")) {
+                        lista.get(i).setCantidad_Producto(rs.getInt("Cantidad_Producto"));
+                    }
+                }
+            }
         } catch (SQLException e) {
             System.out.println("No se pudo insertar el pedido por: " + e);
-        }finally{
+        } finally {
             Conexion.cerrar(con);
             Conexion.cerrar(st);
             Conexion.cerrar(rs);
@@ -72,17 +84,18 @@ public class PedidoDAO {
         return lista;
     }
     int ident;
-      public int ident(){
+
+    public int ident() {
         try {
             con = Conexion.conexion();
             st = con.prepareStatement("SELECT * FROM tbl_pedidos order by Identificador_Pedido desc limit 1");
             rs = st.executeQuery();
-            if(rs.next()) {
-              ident = rs.getInt("Identificador_Pedido");
+            if (rs.next()) {
+                ident = rs.getInt("Identificador_Pedido");
             }
         } catch (SQLException e) {
             System.out.println("No se pudo traer el identificador por: " + e);
-        }finally{
+        } finally {
             Conexion.cerrar(con);
             Conexion.cerrar(st);
             Conexion.cerrar(rs);
@@ -92,7 +105,5 @@ public class PedidoDAO {
 //        }
         return ident;
     }
-    
-    
 
 }

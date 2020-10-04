@@ -17,7 +17,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <%
-
+response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
     HttpSession sesion = request.getSession();
 
     if (sesion.getAttribute("log") == null) {
@@ -25,7 +25,7 @@
     } else {
         if (sesion.getAttribute("log").equals("0")) {
             response.sendRedirect("index.jsp");
-        } else if (!sesion.getAttribute("log").equals("1")) {
+        }else if (!sesion.getAttribute("log").equals("1")) {
             response.sendRedirect("admon.jsp");
         }
     }
@@ -81,8 +81,8 @@
         <!--Fin menú desplegable-->
         <!--Posiciones absolutas y modal-->
 
-        <div class="container" style="margin-top: 150px">
-            <h3>Carrito</h3>
+        <div class="container-fluid" style="margin-top: 50px;">
+            <h3><strong>CARRITO</strong></h3>
             <div class="row">
                 <div class="col-sm-8">
                     <table class="table table-hover">
@@ -98,11 +98,12 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <%int i = 0;%>
                             <c:forEach var="c" items="${ListadoCarro}">
                                 <tr>
-                                    <td>${c.getItem()}</td>
-                                    <td>${c.getNombre_Producto()}</td>
-                                    <td><img src="${c.getRutaImg_Producto()}" style="width: 150px; height: 150px"></td>
+                                    <td><%=++i%></td>
+                                    <td><strong> ${c.getNombre_Producto()}</strong></td>
+                                    <td><img src="${c.getRutaImg_Producto()}" style="width: 200px; height: 200px"></td>
                                     <td>${c.getPrecio_producto()}</td>
                                     <td>
                                         <input type="hidden" value="${c.getIdProducto()}" class="idpCam">

@@ -9,7 +9,7 @@
 <!DOCTYPE html>
 
 <%
-
+response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
     HttpSession sesion = request.getSession();
 
     if (sesion.getAttribute("log") == null) {

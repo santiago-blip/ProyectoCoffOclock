@@ -24,6 +24,10 @@
         <servlet-name>RecuperarPass</servlet-name>
         <servlet-class>Controller.RecuperarPass</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ControllerGraficas</servlet-name>
+        <servlet-class>Controller.ControllerGraficas</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ControllerUser</servlet-name>
         <url-pattern>/ControllerUser</url-pattern>
@@ -47,6 +51,10 @@
     <servlet-mapping>
         <servlet-name>RecuperarPass</servlet-name>
         <url-pattern>/RecuperarPass</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ControllerGraficas</servlet-name>
+        <url-pattern>/ControllerGraficas</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

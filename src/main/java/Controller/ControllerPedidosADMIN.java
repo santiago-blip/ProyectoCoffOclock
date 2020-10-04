@@ -76,11 +76,11 @@ public class ControllerPedidosADMIN extends HttpServlet {
                 System.out.println("Lisa que trae : "+lista.size());
                 out.println("Resultado de vDao.realizarVENTA es : "+resultado);
                 if(resultado>0){
-                    request.setAttribute("ResultadoVenta", resultado);
+                    sesion.setAttribute("ResultadoVenta", resultado);
                 }else{
-                    request.setAttribute("ResultadoVenta", resultado);
+                    sesion.setAttribute("ResultadoVenta", resultado);
                 }
-                request.getRequestDispatcher("UsuarioPedido.jsp").forward(request, response);
+                response.sendRedirect("ControllerPedidosADMIN?accion=verPedidos");
                 break;
         }
 

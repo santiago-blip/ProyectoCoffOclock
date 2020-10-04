@@ -134,6 +134,7 @@ public class ControllerUser extends HttpServlet {
                     sesion.setAttribute("IdUsuario", id);
                     sesion.setAttribute("log", "2");
                     response.sendRedirect("admon.jsp");
+//                    request.getRequestDispatcher("admon.jsp").forward(request, response);
                 } else if (encontrado == 1) {
 //                    sesion.setAttribute("logUser", "1");
 //                    response.sendRedirect("UsuarioLog.jsp");
@@ -152,28 +153,29 @@ public class ControllerUser extends HttpServlet {
                 break;
             case "CerrarSesion":
                 String user = request.getParameter("user");
-                switch (user) {
-                    case "admin":
-                        sesion.invalidate();
-                        response.sendRedirect("admon.jsp");
-                        break;
-                    case "usuario":
-                        sesion.invalidate();
-                        response.sendRedirect("UsuarioLog.jsp");
-                        break;
-                    case "adminInv":
-                        sesion.invalidate();
-                        response.sendRedirect("inventario.jsp");
-                        break;
-                    case "adminPrd":
-                        sesion.invalidate();
-                        response.sendRedirect("productos.jsp");
-                        break;
-                    case "productosUs":
-                        sesion.invalidate();
-                        response.sendRedirect("productosUsLog.jsp");
-                        break;
-                }
+                response.sendRedirect("index.jsp");
+//                switch (user) {
+//                    case "admin":
+//                        sesion.invalidate();
+//                        response.sendRedirect("admon.jsp");
+//                        break;
+//                    case "usuario":
+//                        sesion.invalidate();
+//                        response.sendRedirect("UsuarioLog.jsp");
+//                        break;
+//                    case "adminInv":
+//                        sesion.invalidate();
+//                        response.sendRedirect("inventario.jsp");
+//                        break;
+//                    case "adminPrd":
+//                        sesion.invalidate();
+//                        response.sendRedirect("productos.jsp");
+//                        break;
+//                    case "productosUs":
+//                        sesion.invalidate();
+//                        response.sendRedirect("productosUsLog.jsp");
+//                        break;
+//                }
 
         }
 

@@ -16,7 +16,8 @@
 
 
 <%
-    HttpSession sesion = request.getSession(false);
+    response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
+    HttpSession sesion = request.getSession();
     if (sesion.getAttribute("log") == null) {
         response.sendRedirect("index.jsp");
     } else {
@@ -26,10 +27,6 @@
             response.sendRedirect("UsuarioLog.jsp");
         }
     }
-%>
-<% response.setHeader("Cache-Control", "no-cache"); //HTTP 1.1 
-    response.setHeader("Pragma", "no-cache"); //HTTP 1.0 
-    response.setDateHeader("Expires", 0); //prevents caching at the proxy server  
 %>
 <!DOCTYPE html>
 <html>

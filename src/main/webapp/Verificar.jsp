@@ -6,6 +6,9 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<%
+response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+%>
 <html>
     <head>
         <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">

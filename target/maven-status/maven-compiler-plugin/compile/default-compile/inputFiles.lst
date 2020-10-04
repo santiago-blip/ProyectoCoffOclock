@@ -1,8 +1,11 @@
+D:\ProgramasDevops\NetBeans\CoffOclock\src\main\java\ClasesDAO\RecuperarDAO.java
 D:\ProgramasDevops\NetBeans\CoffOclock\src\main\java\Controller\ControllerUser.java
 D:\ProgramasDevops\NetBeans\CoffOclock\src\main\java\Clases\Carrito.java
 D:\ProgramasDevops\NetBeans\CoffOclock\src\main\java\Clases\PedidosADMON.java
+D:\ProgramasDevops\NetBeans\CoffOclock\src\main\java\Controller\RecuperarPass.java
 D:\ProgramasDevops\NetBeans\CoffOclock\src\main\java\Controller\ActivarCuenta.java
 D:\ProgramasDevops\NetBeans\CoffOclock\src\main\java\Clases\Productos.java
+D:\ProgramasDevops\NetBeans\CoffOclock\src\main\java\ClasesDAO\VentasDAO.java
 D:\ProgramasDevops\NetBeans\CoffOclock\src\main\java\Controller\ControllerProductos.java
 D:\ProgramasDevops\NetBeans\CoffOclock\src\main\java\ClasesDAO\ActivarCuentaDAO.java
 D:\ProgramasDevops\NetBeans\CoffOclock\src\main\java\Clases\Pedido.java
@@ -13,6 +16,7 @@ D:\ProgramasDevops\NetBeans\CoffOclock\src\main\java\Clases\Usuario.java
 D:\ProgramasDevops\NetBeans\CoffOclock\src\main\java\Controller\ControllerCarrito.java
 D:\ProgramasDevops\NetBeans\CoffOclock\src\main\java\Clases\Mail.java
 D:\ProgramasDevops\NetBeans\CoffOclock\src\main\java\ClasesDAO\PedidosADMONDAO.java
+D:\ProgramasDevops\NetBeans\CoffOclock\src\main\java\Clases\Ventas.java
 D:\ProgramasDevops\NetBeans\CoffOclock\src\main\java\ClasesDAO\ProductosDAO.java
 D:\ProgramasDevops\NetBeans\CoffOclock\src\main\java\Model\Conexion.java
 D:\ProgramasDevops\NetBeans\CoffOclock\src\main\java\Controller\ControllerPedidosADMIN.java

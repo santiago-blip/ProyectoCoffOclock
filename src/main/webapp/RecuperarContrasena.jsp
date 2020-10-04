@@ -6,7 +6,7 @@
 
 
 <%
-
+response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
 if(request.getAttribute("NoIngresar") != null){
     if(request.getAttribute("NoIngresar").equals("false")){
         request.setAttribute("NoIngresar", "true");

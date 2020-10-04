@@ -1,27 +1,25 @@
+<%@page import="Clases.Grafica"%>
+<%@page import="Clases.Ventas"%>
+<%@page import="java.util.List"%>
+<%@page import="java.util.Arrays"%>
+<%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="javax.servlet.http.HttpSession"%>
 <%@page import="Controller.ControllerUser" %>
 <!DOCTYPE html>
-<%--<%
-HttpSession sesion = request.getSession();
-
-if(sesion.getAttribute("logAdmin")==null ||  !sesion.getAttribute("logAdmin").equals("2")){
-    response.sendRedirect("index.jsp");
-}
-%>
 <%
-HttpSession sesion = request.getSession();
-
-if(sesion.getAttribute("log")==null){
-    response.sendRedirect("index.jsp");
-}else{
-    if(sesion.getAttribute("log").equals("0")){
-    response.sendRedirect("index.jsp");
-    }else if(!sesion.getAttribute("log").equals("2")){
-       response.sendRedirect("UsuarioLog.jsp"); 
+    response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
+    HttpSession sesion = request.getSession();
+    if (sesion.getAttribute("log") == null) {
+        response.sendRedirect("index.jsp");
+    } else {
+        if (sesion.getAttribute("log").equals("0")) {
+            response.sendRedirect("index.jsp");
+        } else if (!sesion.getAttribute("log").equals("2")) {
+            response.sendRedirect("UsuarioLog.jsp");
+        }
     }
-}
-%>--%>
+%>
 <html>
     <head>
         <meta charset="utf-8">
@@ -32,6 +30,8 @@ if(sesion.getAttribute("log")==null){
         <!-- icono -->
         <link href="assets/img/favicon.png" rel="icon">
         <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+        <link rel="stylesheet" href=" ${pageContext.request.contextPath}/css/inventario.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/Inventario.css">
         <!-- Google Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet">
         <!-- Libreria Archivos CSS  -->
@@ -41,6 +41,7 @@ if(sesion.getAttribute("log")==null){
         <link href="assets/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet">
         <link href="assets/vendor/owl.carousel/assets/owl.carousel.min.css" rel="stylesheet">
         <link href="assets/css/style.css" rel="stylesheet">
+        <script src="vendor2/chart.js/Chart.bundle.min.js"></script>
     </head>
 
     <body>
@@ -63,7 +64,7 @@ if(sesion.getAttribute("log")==null){
                 <div class="navbar-collapse collapse justify-content-center" id="navbarDefault">
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link active" href="admon.jsp">Inicio</a>
+                            <a class="nav-link " href="admon.jsp">Inicio</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="ControllerPedidosADMIN?accion=verPedidos">Pedidos</a>
@@ -72,55 +73,170 @@ if(sesion.getAttribute("log")==null){
                             <a class="nav-link" href="inventario.jsp">Inventario</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="ventas.jsp">Ventas</a>
+                            <a class="nav-link  active" href="ventas.jsp">Ventas</a>
                         </li>
                     </ul>
                 </div>
                 <a class="btn btn-outline-danger" href="ControllerUser?accion=CerrarSesion&user=admin">Cerrar Sesión</a>
             </div>
         </nav>
+
         <!-- == Gráficas == -->
+        <div class="container-fluid" style="margin-top: 150px;">
+            <div class="row">
+                <div class="col-5 m-auto">
+                    <canvas id="myChart" width="400px" height="400px"></canvas>
+                </div>
 
-        <canvas id="myChart" width="400" height="400"></canvas>
-        <script src="vendor2/chart.js/Chart.bundle.min.js"></script>
-        <script src="vendor2/chart.js/Chart.min.js"></script>
+            </div>
+        </div>
 
+
+      <%
+            List<Grafica> listaVenta = null;
+            double listaVentas[] = null;
+            String listaFecha[] = null;
+            listaFecha = new String[12];
+            listaFecha[0] = "'ENERO'";
+            listaFecha[1] = "'FEBRERO'";
+            listaFecha[2] = "'MARZO'";
+            listaFecha[3] = "'ABRIL'";
+            listaFecha[4] = "'MAYO'";
+            listaFecha[5] = "'JUNIO'";
+            listaFecha[6] = "'JULIO'";
+            listaFecha[7] = "'AGOSTO'";
+            listaFecha[8] = "'SEPTIEMBRE'";
+            listaFecha[9] = "'OCTUBRE'";
+            listaFecha[10] = "'NOVIEMBRE'";
+            listaFecha[11] = "'DICIEMBRE'";
+            if (sesion.getAttribute("Venta") != null) {
+                
+               listaVenta = (ArrayList)sesion.getAttribute("Venta");
+               //ESTABLECER VALORES PARA LOS MESES
+                listaVentas = new double[12];
+                for (int i = 0; i < listaVenta.size(); i++) {
+
+                    switch (listaVenta.get(i).getMes()) {
+                        case 1:
+                            listaVentas[0] = listaVenta.get(i).getTotalGrafica();
+                            break;
+                        case 2:
+                            listaVentas[1] = listaVenta.get(i).getTotalGrafica();
+                            break;
+                        case 3:
+                            listaVentas[2] = listaVenta.get(i).getTotalGrafica();
+                            break;
+                        case 4:
+                            listaVentas[3] = listaVenta.get(i).getTotalGrafica();
+                            break;
+                        case 5:
+                            listaVentas[4] = listaVenta.get(i).getTotalGrafica();
+                            break;
+                        case 6:
+                            listaVentas[5] = listaVenta.get(i).getTotalGrafica();
+                            break;
+                        case 7:
+                            listaVentas[6] = listaVenta.get(i).getTotalGrafica();
+                            break;
+                        case 8:
+                            listaVentas[7] = listaVenta.get(i).getTotalGrafica();
+                            break;
+                        case 9:
+                            listaVentas[8] = listaVenta.get(i).getTotalGrafica();
+                            break;
+                        case 10:
+                            listaVentas[9] = listaVenta.get(i).getTotalGrafica();
+                            break;
+                        case 11:
+                            listaVentas[10] = listaVenta.get(i).getTotalGrafica();
+                            break;
+                        case 12:
+                            listaVentas[11] = listaVenta.get(i).getTotalGrafica();
+                            break;
+                    }
+              
+
+               
+            }
+            }
+        %>
 
         <script>
+            var meses = new Array("Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre");
+            var diasSemana = new Array("Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado");
+            var f = new Date();
+            document.write(diasSemana[f.getDay()] + ", " + f.getDate() + " de " + meses[f.getMonth()] + " de " + f.getFullYear());
+        </script>
+        <script>
+
             var ctx = document.getElementById('myChart').getContext('2d');
             var myChart = new Chart(ctx, {
-                type: 'bar',
+                type: 'line',
                 data: {
-                    labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                    labels: <%=Arrays.toString(listaFecha)%>,
                     datasets: [{
-                            label: '# of Votes',
-                            data: [12, 19, 3, 5, 2, 3],
-                            backgroundColor: [
-                                'rgba(255, 99, 132, 0.2)',
-                                'rgba(54, 162, 235, 0.2)',
-                                'rgba(255, 206, 86, 0.2)',
-                                'rgba(75, 192, 192, 0.2)',
-                                'rgba(153, 102, 255, 0.2)',
-                                'rgba(255, 159, 64, 0.2)'
-                            ],
-                            borderColor: [
-                                'rgba(255, 99, 132, 1)',
-                                'rgba(54, 162, 235, 1)',
-                                'rgba(255, 206, 86, 1)',
-                                'rgba(75, 192, 192, 1)',
-                                'rgba(153, 102, 255, 1)',
-                                'rgba(255, 159, 64, 1)'
-                            ],
-                            borderWidth: 1
-                        }]
+                            label: 'Ventas',
+                            borderColor:'green',
+                            data:<%=Arrays.toString(listaVentas)%>,
+                            borderWidth: 2
+                        }
+                    ]
                 },
                 options: {
+                title:{
+                display:true,
+                text:"Gráficas del año <%=sesion.getAttribute("year")%>",
+                fontSize:30,
+                padding:30,
+                fontColor:"rgb(135,156,189)"
+                },
+                 legend:{
+                     position:'bottom',
+                     labels:{
+                         padding:20,
+                         boxWidth:25,
+                         fontFamily:"system-ui",
+                         fontColor:"black",
+                        }
+                 },
+                   layout:{
+                       padding:{
+                           right:50
+                       }
+                   },
+                   tooltips:{
+                   backgroundColor:"black",
+                   titleFontSize:20,
+                   xPadding:20,
+                   yPadding:20,
+                   bodyFontSize:15,
+                   bodySpacing:10,
+                   mode:"x"
+                         },
+                   elements:{
+                   line:{
+                       borderWidth:100,
+                       fill:false
+                   },
+                   point:{
+                       radius:6,
+                       borderWidth:4,
+                       backgroundColor:"white",
+                       hoverRadius:8,
+                       hoverborderRadius:4
+                   }
+                        },
                     scales: {
                         yAxes: [{
                                 ticks: {
                                     beginAtZero: true
                                 }
-                            }]
+                            }],
+                        xAxes:[{
+                               gridLines:{
+                                   display:false
+                               } 
+                        }]
                     }
                 }
             });

@@ -4,12 +4,16 @@ Controller\ControllerCarrito.class
 Clases\Carrito.class
 Controller\ActivarCuenta.class
 Controller\ControllerProductos.class
+Controller\RecuperarPass.class
+ClasesDAO\RecuperarDAO.class
 ClasesDAO\PedidoDAO.class
 Controller\ControllerPedidosADMIN.class
 Clases\Encriptar.class
 Clases\Mail.class
 ClasesDAO\PedidosADMONDAO.class
 Clases\PedidosADMON.class
+ClasesDAO\VentasDAO.class
+Clases\Ventas.class
 ClasesDAO\UsuariosDAO.class
 ClasesDAO\ActivarCuentaDAO.class
 Clases\Productos.class

@@ -3,7 +3,19 @@
     Created on : 30 sept. 2020, 14:01:32
     Author     : santi
 --%>
-
+<%
+    response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
+    HttpSession sesion = request.getSession();
+    if (sesion.getAttribute("log") == null) {
+        response.sendRedirect("index.jsp");
+    } else {
+        if (sesion.getAttribute("log").equals("0")) {
+            response.sendRedirect("index.jsp");
+        } else if (!sesion.getAttribute("log").equals("2")) {
+            response.sendRedirect("UsuarioLog.jsp");
+        }
+    }
+%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="Clases.PedidosADMON"%>
 <%@page import="Controller.ControllerPedidosADMIN" %>
@@ -28,20 +40,7 @@
 
         <!--Inicio tabla-->
 
-        <%
-            if (request.getAttribute("ResultadoVenta") != null) {
-                if ((Integer) request.getAttribute("ResultadoVenta") > 0) {
-
-        %>
-        <script>alert("Se hizo la venta con éxito");</script>
-        <%        } else {
-
-        %>
-        <script>alert("No se pudo realizar la venta porque uno de los productos agotó su cantidad");</script>
-        <%                }
-            }
-
-        %>
+      
 
         <%            String nombreU = "";
             Double totalpagar = 0.0;

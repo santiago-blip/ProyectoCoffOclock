@@ -15,7 +15,7 @@ public class VentasDAO {
     Connection con;
     PreparedStatement st;
     ResultSet rs;
-    
+
     //Método para traer la venta que se llevará ala bd.
     public Ventas venta(int identificador) {
         Ventas venta = null;
@@ -36,6 +36,7 @@ public class VentasDAO {
         }
         return venta;
     }
+
     //Método para traer todos los productos del pedido.
     public List<Pedido> Listarventa(int identificador) {
         List<Pedido> lista = new ArrayList<>();
@@ -70,6 +71,7 @@ public class VentasDAO {
         }
         return lista;
     }
+
     //Método para hacer la venta, llenar el historial del pedido y eliminar el pedido ya pago.
     public int RelizarVenta(Ventas venta, List<Pedido> lista) {
         int resultado = 0;
@@ -99,7 +101,7 @@ public class VentasDAO {
                     if (rs.next()) {
                         cantidad = rs.getInt("Cantidad_Producto");
                         st = con.prepareStatement("UPDATE tbl_productos SET Cantidad_Producto = ? WHERE Id_Producto = ?");
-                        st.setInt(1, cantidad - 1);
+                        st.setInt(1, cantidad - lista.get(i).getCantidad_Producto());
                         st.setInt(2, lista.get(i).getId_Producto());
                         st.executeUpdate();
                     }
@@ -130,15 +132,45 @@ public class VentasDAO {
                 st.setString(4, venta.getFecha());
                 st.setString(5, venta.getCodigoPedido());
                 st.executeUpdate();
+                
+                
                 //Ahora borra de pedidos
                 st = con.prepareStatement("DELETE FROM tbl_pedidos WHERE Identificador_Pedido = ?");
                 st.setInt(1, venta.getIdentificadorPedido());
                 st.executeUpdate();
                 resultado = 1;
+
+                
+                //Borrar del carro de compras si el producto de inventario está en 0
+                st = con.prepareStatement("SELECT * FROM tbl_ccompras");
+                Carrito c = new Carrito();
+                CarritoDAO cDo = new CarritoDAO();
+                List<Carrito> cLista = new ArrayList<>();
+                rs = st.executeQuery();
+                while (rs.next()) {
+                    c.setIdProducto(rs.getInt("Id_Producto"));
+                    c.setIdUsuario(rs.getInt("Id_Usuario"));
+                    cLista.add(c);
+                }
+                //Ciclo para recorrer el carro de compras y ver que no hayan productos que estén agotados.
+                for (int i = 0; i < cLista.size(); i++) {
+                    st = con.prepareStatement("SELECT Cantidad_Producto FROM tbl_productos WHERE Id_Producto = ?");
+                    st.setInt(1, cLista.get(i).getIdProducto());
+                    rs = st.executeQuery();
+                    if(rs.next()) {
+                        System.out.println("Entro al if de que encontró");
+                        System.out.println("El cantidad producto que trae es: " + rs.getInt("Cantidad_Producto"));
+                        System.out.println("Cantidad de producto de: " + cLista.get(i).getNombre_Producto() + " es de: " + cLista.get(i).getCantidad_Producto());
+                        if (rs.getInt("Cantidad_Producto") == 0) {
+                           st = con.prepareStatement("DELETE FROM tbl_ccompras");
+                           st.executeUpdate();
+                        }
+                    }
+                }
+
             } else {
                 resultado = 0;
             }
-
         } catch (SQLException e) {
             System.out.println("No se pudo hacer la venta por: " + e);
         } finally {
