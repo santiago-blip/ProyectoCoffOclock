@@ -12,6 +12,8 @@ public class ActivarCuentaDAO {
     PreparedStatement st;
     ResultSet rs;
 
+
+
     public int activarCuenta(String user, String code) {
         int activar = 0;
         System.out.println("Ya entró a actualizar");

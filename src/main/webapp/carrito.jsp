@@ -51,6 +51,7 @@ response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
         <link href="assets/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet">
         <link href="assets/vendor/owl.carousel/assets/owl.carousel.min.css" rel="stylesheet">
         <link href="assets/css/style.css" rel="stylesheet">
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
         <title>CoffOclock</title>
     </head>
     <body>
@@ -84,7 +85,7 @@ response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
         <div class="container-fluid" style="margin-top: 50px;">
             <h3><strong>CARRITO</strong></h3>
             <div class="row">
-                <div class="col-sm-8">
+                <div class="col-sm-9">
                     <table class="table table-hover">
                         <thead>
                             <tr>
@@ -112,14 +113,14 @@ response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
                                     <td>${c.getPrecioPagar()}</td>
                                     <td>
                                         <input type="hidden" id="idC" value="${c.getIdProducto()}" class="idC">
-                                        <a href="" id="btndelete"  class="btn btn-outline-info btn-block btndelete">Eliminar</a>
+                                        <button type="button" id="btndelete"  class="btn btn-outline-info btn-block btndelete">Eliminar</button>
                                     </td>
                                 </tr>
                             </c:forEach>
                         </tbody>
                     </table>
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-3">
                     <div class="card">
                         <div class="card-header">
                             <h3>Generar comprar</h3>
@@ -129,7 +130,6 @@ response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
                             <input type="text" readonly="" class="form-control" value="$ ${TotalPagar}">
                         </div>
                         <div class="card-footer">
-                            <a href="" class="btn btn-info btn-block">Realizar pago</a>
                             <a href="ControllerCarrito?accion=GenerarCompra" class="btn btn-danger btn-block">Generar compra</a>
                         </div>
                     </div>
@@ -143,12 +143,12 @@ response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
              if(sesion.getAttribute("Pedido").equals("si")){
                  String codigo = (String) sesion.getAttribute("codigoPedido");
            %>
-             <script>alert("Se hizo su pedido con éxito este es el código de su pedido:<%=codigo%> ");</script>
+             <script>swal("¡Pedido enviado!", "Se hizo su pedido con éxito este es el código de su pedido:<%=codigo%>", "success");</script>
            <%  
                sesion.setAttribute("Pedido", "nn");
                       }else if(sesion.getAttribute("Pedido").equals("no")){
              %>
-             <script>alert("No se pudo hacer su pedido");</script>
+             <script>swal("¡ERROR AL HACER EL PEDIDO!", "No se pudo hacer su pedido", "error")</script>
              <%
                  sesion.setAttribute("Pedido", "nn");
 }
@@ -167,7 +167,7 @@ response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
         <script src="assets/js/main.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-        <script src="js/EliminarCarro.js" type="text/javascript"></script>
+        <script src="js/EliminarDelCarrito.js"></script>
     </body>
 </html>
 

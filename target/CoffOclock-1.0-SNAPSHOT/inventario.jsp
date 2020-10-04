@@ -79,7 +79,7 @@
                                 <a class="nav-link active" href="inventario.jsp">Inventario</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="ventas.jsp">Ventas</a>
+                                <a class="nav-link" href="ControllerGraficas?accion=VerGrafica">Ventas</a>
                             </li>
                         </ul>
                     </div>

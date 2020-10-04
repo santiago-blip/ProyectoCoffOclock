@@ -16,7 +16,7 @@
 <%@page import="Controller.ControllerUser" %>
 <!DOCTYPE html>
 <%
-response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+    response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
     HttpSession sesion = request.getSession();
 
     if (sesion.getAttribute("log") == null) {
@@ -24,7 +24,7 @@ response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
     } else {
         if (sesion.getAttribute("log").equals("0")) {
             response.sendRedirect("index.jsp");
-        }else if (!sesion.getAttribute("log").equals("1")) {
+        } else if (!sesion.getAttribute("log").equals("1")) {
             response.sendRedirect("admon.jsp");
         }
     }
@@ -50,6 +50,7 @@ response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
         <link href="assets/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet">
         <link href="assets/vendor/owl.carousel/assets/owl.carousel.min.css" rel="stylesheet">
         <link href="assets/css/style.css" rel="stylesheet">
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
         <title>CoffOclock</title>
     </head>
     <body>
@@ -102,19 +103,27 @@ response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
                             </div>
                             <div>
                                 <p class="text-center">${p.getDescripcion_Producto()}<p>
-                                   <p class="text-center">Cantidad: ${p.getCantidad_Producto()}<p>
+                                <p class="text-center">Cantidad: ${p.getCantidad_Producto()}<p>
                                 <p class="text-center"> $ ${p.getPrecio_Producto()}</p>
 
                             </div>
                             <div class="card text-center  mb-3">
-                                <a href="" onclick="agregarProd(${p.getIdProducto()})" class="btn btn-outline-info btn-block">Agregar</a>
-                              <%--  <a href="ControllerCarrito?accion=comprarProducto&id=${p.getIdProducto()}" class="btn btn-outline-danger btn-block">Comprar sin js</a>
-                                <a href="" onclick="comprarProd(${p.getIdProducto()})" class="btn btn-outline-danger btn-block">Comprar</a> --%>
+
+                                <c:if test="${p.getCantidad_Producto()>0}">
+                                    <button type="button" onclick="agregarProd(${p.getIdProducto()})" class="btn btn-outline-info btn-block">Agregar</button>
+                                </c:if>
+
+                                <c:if test="${p.getCantidad_Producto()==0}">
+                                    <button type="button"  class="btn btn-outline-danger btn-block" disabled="true">No disponible</button>
+                                </c:if>
+
+                                <%--  <a href="ControllerCarrito?accion=comprarProducto&id=${p.getIdProducto()}" class="btn btn-outline-danger btn-block">Comprar sin js</a>
+                                  <a href="" onclick="comprarProd(${p.getIdProducto()})" class="btn btn-outline-danger btn-block">Comprar</a> --%>
                             </div>
                         </div>
                     </div>  
-                           <!-- cartas de boostrap --> 
-                           <!-- cartas de boostrap -->
+                    <!-- cartas de boostrap --> 
+                    <!-- cartas de boostrap -->
                 </c:forEach>
             </div>
         </div>

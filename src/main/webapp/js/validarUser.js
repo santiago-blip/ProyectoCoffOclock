@@ -1,4 +1,4 @@
-const formlario = document.getElementById('formulario');
+const formulario = document.getElementById('formulario');
 const inputs = document.querySelectorAll('#formulario input');
 
 const expresiones = {
@@ -7,7 +7,7 @@ const expresiones = {
     apellido: /^[a-zA-ZÀ-ÿ\s]{4,24}$/, // Letras y espacios, pueden llevar acentos.
     documento: /^\d{7,14}$/, // 7 a 14 numeros.
     correo: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
-    password: /^.{4,12}$/           // 4 a 12 digitos.
+    password: /^.{4,100}$/           // 4 a 12 digitos.
 };
 
 const campos = {
@@ -86,11 +86,10 @@ inputs.forEach((input) => {
     input.addEventListener('blur', validarFormulario);
 });
 
-/*formulario.addEventListener('submit', (e) => {
+formulario.addEventListener('submit', (e) => {
     e.preventDefault();
     const terminos = document.getElementById('terminos');
     if (campos.nombre && campos.apellido && campos.documento && campos.correo && campos.password) {
-        formulario.reset();
         document.getElementById('message-exitoso').classList.add('message-exitoso-activo');
         setTimeout(() => {
             document.getElementById('message-exitoso').classList.remove('message-exitoso-activo');
@@ -98,10 +97,12 @@ inputs.forEach((input) => {
         document.querySelectorAll('.campo-valido').forEach((icono) => {
             icono.classList.remove('campo-valido');
         });
+        document.getElementById('form-message').classList.remove('form-message-activo');
+        formulario.submit();
+        formulario.reset();
     } else {
         document.getElementById('form-message').classList.add('form-message-activo');
     }
-    formulario.submit();
-}); */
+});
 
 

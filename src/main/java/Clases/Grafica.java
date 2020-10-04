@@ -5,7 +5,7 @@ public class Grafica {
     private int mes;
     private double totalGrafica;
     private int year;
-
+    private int Ryear;
     public Grafica(){
         
     }
@@ -37,6 +37,14 @@ public class Grafica {
 
     public void setYear(int year) {
         this.year = year;
+    }
+
+    public int getRyear() {
+        return Ryear;
+    }
+
+    public void setRyear(int Ryear) {
+        this.Ryear = Ryear;
     }
     
     

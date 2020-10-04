@@ -1,37 +1,15 @@
-const formulario = document.getElementById('formulario');
-const inputs = document.querySelectorAll('#formulario input');
+const formulario = document.getElementById('formularioRecuperar');
+const inputs = document.querySelectorAll('#formularioRecuperar input');
 
 const expresiones = {
-    usuario: /^[a-zA-Z0-9\_\-]{4,16}$/, // Letras, numeros, guion y guion_bajo
-    nombre: /^[a-zA-ZÀ-ÿ\s]{3,24}$/, // Letras y espacios, pueden llevar acentos.
-    apellido: /^[a-zA-ZÀ-ÿ\s]{4,24}$/, // Letras y espacios, pueden llevar acentos.
-    documento: /^\d{7,14}$/, // 7 a 14 numeros.
-    correo: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
     password: /^.{4,100}$/           // 4 a 12 digitos.
 };
 
 const campos = {
-    nombre: false,
-    apellido: false,
-    documento: false,
-    correo: false,
     password: false
 };
-
 const validarFormulario = (e) => {
     switch (e.target.name) {
-        case "nombre":
-            validarCampo(expresiones.nombre, e.target, 'nombre');
-            break;
-        case "apellido":
-            validarCampo(expresiones.apellido, e.target, 'apellido');
-            break;
-        case "documento":
-            validarCampo(expresiones.documento, e.target, 'documento');
-            break;
-        case "correo":
-            validarCampo(expresiones.correo, e.target, 'correo');
-            break;
         case "password":
             validarCampo(expresiones.password, e.target, 'password');
             validarPassword2();
@@ -86,23 +64,27 @@ inputs.forEach((input) => {
     input.addEventListener('blur', validarFormulario);
 });
 
+
 formulario.addEventListener('submit', (e) => {
     e.preventDefault();
-    const terminos = document.getElementById('terminos');
-    if (campos.nombre && campos.apellido && campos.documento && campos.correo && campos.password) {
-        document.getElementById('message-exitoso').classList.add('message-exitoso-activo');
-        setTimeout(() => {
-            document.getElementById('message-exitoso').classList.remove('message-exitoso-activo');
-        }, 5000);
-        document.querySelectorAll('.campo-valido').forEach((icono) => {
-            icono.classList.remove('campo-valido');
+    if (campos.password) {
+        var pass = formulario['password'].value;
+        var correo = formulario['correoC'].value;
+        console.log("Esta es : "+pass);
+        $.ajax({
+            type: 'POST',
+            url: "RecuperarPass?accion=cambiar",
+            data: "pass=" + pass+"&CorreoCam="+correo,
+            success: function (data, textStatus, jqXHR) {
+                console.log("DATA Y CORREO: "+pass+correo)
+                swal("Cambio la contraseña", {
+                    icon: "success",
+                }).then(()=>{
+                    window.location.href = "index.jsp";
+                });
+            }
         });
-        document.getElementById('form-message').classList.remove('form-message-activo');
-        formulario.submit();
-        formulario.reset();
     } else {
         document.getElementById('form-message').classList.add('form-message-activo');
     }
-});
-
-
+}); 

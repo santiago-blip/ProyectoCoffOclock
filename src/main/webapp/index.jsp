@@ -11,27 +11,11 @@
 
 <!DOCTYPE html>
 
-<%
 
-    HttpSession sesion = request.getSession();
-
-    if (sesion.getAttribute("NoLog") != null) {
-        if (sesion.getAttribute("NoLog").equals("0")) {%>
-<script>alert("Contraseña o correo incorrectas");</script>
-<%
-        }
-    }
-    if (sesion.getAttribute("log") != null) {
-        if (sesion.getAttribute("log").equals("3")) {
-%>
-<script>alert("Debe autentificar su correo primero. Revise en la parte de \"spam\"");</script>
-<%
-        }
-    }
-    sesion.invalidate();
-%>
 
 <html lang="es">
+
+
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -50,10 +34,28 @@
         <link href="assets/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet">
         <link href="assets/vendor/owl.carousel/assets/owl.carousel.min.css" rel="stylesheet">
         <link href="assets/css/style.css" rel="stylesheet">
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
         <title>CoffOclock</title>
     </head>
     <body>
-
+        <%
+            HttpSession sesion = request.getSession();
+            if (sesion.getAttribute("NoLog") != null) {
+                if (sesion.getAttribute("NoLog").equals("0")) {%>
+        <script>swal("¡ERROR!", "Contraseña o correo incorrecto", "error");</script>
+        <!--alert("Contraseña o correo incorrectas");-->
+        <%
+                }
+            }
+            if (sesion.getAttribute("log") != null) {
+                if (sesion.getAttribute("log").equals("3")) {
+        %>
+        <script>swal("¡Correo no verificado!", "Debe autentificar su correo primero. Revise en la parte de \"spam\".", "warning");</script>
+        <%
+                }
+            }
+            sesion.invalidate();
+        %>
         <div class="nav">
             <div class="logo">
                 <div class="imgLogo" ><img src="img/logo.png"   alt=""></div>
@@ -193,7 +195,7 @@
                                                 <input type="password" class="campo form-control form-control-user" id="password" name="password" placeholder="Contraseña" required>
                                                 <i class="validacion-campo fa fa-times-circle" style="font-size: 25px"></i>
                                             </div>
-                                            <p class="error">La contraseña deve tener de 4 a 16 caracteres</p>
+                                            <p class="error">La contraseña debe tener de 4 a 16 caracteres</p>
                                         </div>
                                         <div class="form-group row" id="grupo_password2">
                                             <div class="col-sm-6 inputs">
@@ -277,11 +279,11 @@
                 String CorreoExistente = (String) request.getAttribute("CorreoRegistrado");
 
                 if (CorreoExistente.equals("1")) { %>
-        <script>alert("El correo ya está registrado");</script>
+        <script>swal("¡ERROR!", "El correo ya se encuentra registrado", "error");</script>
         <%}
 
             if (CorreoExistente.equals("2")) { %>
-        <script>alert("Registro exitoso");</script>
+        <script>swal("¡MUY BIEN!", "Su registro se completó de manera exitosa", "success");</script>
         <%}
             }%>
 
@@ -301,5 +303,6 @@
         <script src="assets/vendor/scrollreveal/scrollreveal.min.js"></script>
         <!-- Template Main JS File -->
         <script src="assets/js/main.js"></script>
+
     </body>
 </html>

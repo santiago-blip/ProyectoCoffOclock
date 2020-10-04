@@ -50,8 +50,8 @@ public class ControllerPedidosADMIN extends HttpServlet {
 //        listaPadminResultado = PadminDAO.retornarPedidos(listaPadmin);
                 //Listado para resultado
                 sesion.setAttribute("ListaPADMON", listaPadmin);
-                request.getRequestDispatcher("pedidos.jsp").forward(request, response);
-                //response.sendRedirect("pedidos.jsp");
+//                request.getRequestDispatcher("pedidos.jsp").forward(request, response);
+                response.sendRedirect("pedidos.jsp");
                 break;
             case "verCliente":
                int identificador = Integer.parseInt(request.getParameter("identificador"));
@@ -76,9 +76,9 @@ public class ControllerPedidosADMIN extends HttpServlet {
                 System.out.println("Lisa que trae : "+lista.size());
                 out.println("Resultado de vDao.realizarVENTA es : "+resultado);
                 if(resultado>0){
-                    sesion.setAttribute("ResultadoVenta", resultado);
+                    sesion.setAttribute("ResultadoVenta", 2);
                 }else{
-                    sesion.setAttribute("ResultadoVenta", resultado);
+                    sesion.setAttribute("ResultadoVenta", 0);
                 }
                 response.sendRedirect("ControllerPedidosADMIN?accion=verPedidos");
                 break;

@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page import="Clases.Grafica"%>
 <%@page import="Clases.Ventas"%>
 <%@page import="java.util.List"%>
@@ -73,7 +74,7 @@
                             <a class="nav-link" href="inventario.jsp">Inventario</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link  active" href="ventas.jsp">Ventas</a>
+                            <a class="nav-link  active" href="ControllerGraficas?accion=VerGrafica">Ventas</a>
                         </li>
                     </ul>
                 </div>
@@ -83,16 +84,30 @@
 
         <!-- == Gráficas == -->
         <div class="container-fluid" style="margin-top: 150px;">
+            <script>
+                var meses = new Array("Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre");
+                var diasSemana = new Array("Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado");
+                var f = new Date();
+                document.write(diasSemana[f.getDay()] + ", " + f.getDate() + " de " + meses[f.getMonth()] + " de " + f.getFullYear());
+            </script>
             <div class="row">
-                <div class="col-5 m-auto">
+                <div class="form-group col-md-5 m-auto">
+                    <div class="col-3"> 
+                        <select  class="form-control form-group" id="select" name="year">
+                            <option value="año">Año</option>
+                            <c:forEach var="o" items="${anos}">
+                                <option value="${o.getRyear()}">${o.getRyear()}</option>
+                            </c:forEach>
+                        </select>
+                    </div>
+
                     <canvas id="myChart" width="400px" height="400px"></canvas>
                 </div>
-
             </div>
         </div>
 
 
-      <%
+        <%
             List<Grafica> listaVenta = null;
             double listaVentas[] = null;
             String listaFecha[] = null;
@@ -110,9 +125,9 @@
             listaFecha[10] = "'NOVIEMBRE'";
             listaFecha[11] = "'DICIEMBRE'";
             if (sesion.getAttribute("Venta") != null) {
-                
-               listaVenta = (ArrayList)sesion.getAttribute("Venta");
-               //ESTABLECER VALORES PARA LOS MESES
+
+                listaVenta = (ArrayList) sesion.getAttribute("Venta");
+                //ESTABLECER VALORES PARA LOS MESES
                 listaVentas = new double[12];
                 for (int i = 0; i < listaVenta.size(); i++) {
 
@@ -154,19 +169,12 @@
                             listaVentas[11] = listaVenta.get(i).getTotalGrafica();
                             break;
                     }
-              
 
-               
-            }
+                }
             }
         %>
 
-        <script>
-            var meses = new Array("Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre");
-            var diasSemana = new Array("Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado");
-            var f = new Date();
-            document.write(diasSemana[f.getDay()] + ", " + f.getDate() + " de " + meses[f.getMonth()] + " de " + f.getFullYear());
-        </script>
+
         <script>
 
             var ctx = document.getElementById('myChart').getContext('2d');
@@ -176,67 +184,67 @@
                     labels: <%=Arrays.toString(listaFecha)%>,
                     datasets: [{
                             label: 'Ventas',
-                            borderColor:'green',
+                            borderColor: 'green',
                             data:<%=Arrays.toString(listaVentas)%>,
                             borderWidth: 2
                         }
                     ]
                 },
                 options: {
-                title:{
-                display:true,
-                text:"Gráficas del año <%=sesion.getAttribute("year")%>",
-                fontSize:30,
-                padding:30,
-                fontColor:"rgb(135,156,189)"
-                },
-                 legend:{
-                     position:'bottom',
-                     labels:{
-                         padding:20,
-                         boxWidth:25,
-                         fontFamily:"system-ui",
-                         fontColor:"black",
+                    title: {
+                        display: true,
+                        text: "Gráficas del año <%=sesion.getAttribute("year")%>",
+                        fontSize: 30,
+                        padding: 30,
+                        fontColor: "rgb(135,156,189)"
+                    },
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            padding: 20,
+                            boxWidth: 25,
+                            fontFamily: "system-ui",
+                            fontColor: "black",
                         }
-                 },
-                   layout:{
-                       padding:{
-                           right:50
-                       }
-                   },
-                   tooltips:{
-                   backgroundColor:"black",
-                   titleFontSize:20,
-                   xPadding:20,
-                   yPadding:20,
-                   bodyFontSize:15,
-                   bodySpacing:10,
-                   mode:"x"
-                         },
-                   elements:{
-                   line:{
-                       borderWidth:100,
-                       fill:false
-                   },
-                   point:{
-                       radius:6,
-                       borderWidth:4,
-                       backgroundColor:"white",
-                       hoverRadius:8,
-                       hoverborderRadius:4
-                   }
+                    },
+                    layout: {
+                        padding: {
+                            right: 50
+                        }
+                    },
+                    tooltips: {
+                        backgroundColor: "black",
+                        titleFontSize: 20,
+                        xPadding: 20,
+                        yPadding: 20,
+                        bodyFontSize: 15,
+                        bodySpacing: 10,
+                        mode: "x"
+                    },
+                    elements: {
+                        line: {
+                            borderWidth: 100,
+                            fill: false
                         },
+                        point: {
+                            radius: 6,
+                            borderWidth: 4,
+                            backgroundColor: "white",
+                            hoverRadius: 8,
+                            hoverborderRadius: 4
+                        }
+                    },
                     scales: {
                         yAxes: [{
                                 ticks: {
                                     beginAtZero: true
                                 }
                             }],
-                        xAxes:[{
-                               gridLines:{
-                                   display:false
-                               } 
-                        }]
+                        xAxes: [{
+                                gridLines: {
+                                    display: false
+                                }
+                            }]
                     }
                 }
             });
@@ -261,6 +269,7 @@
         <script src="assets/vendor/scrollreveal/scrollreveal.min.js"></script>
         <!-- Template Main JS File -->
         <script src="assets/js/main.js"></script>
+        <script src="js/SeleccionYear.js"></script>
     </body>
 
 </html>

@@ -10,7 +10,10 @@ import Clases.Ventas;
 import ClasesDAO.GraficasDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -25,9 +28,18 @@ public class ControllerGraficas extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession sesion = request.getSession();
         String accion = request.getParameter("accion");
+        int year = 0;
+        if (request.getParameter("year") != null) {
+            year = Integer.parseInt(request.getParameter("year"));
+            System.out.println("ESTO AGARRA: " + year);
+        } else {
+            Date date = new Date();
+            LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            year = localDate.getYear();
+        }
         switch (accion) {
             case "VerGrafica":
-                int year = 2020;
+
                 //Establecer meses
                 String listaFecha[] = new String[12];
                 listaFecha[0] = "ENERO";
@@ -45,21 +57,26 @@ public class ControllerGraficas extends HttpServlet {
 
                 //TRAIGO LOS VALORES DEL MES
                 List<Grafica> listaVenta = new ArrayList<>();
+                List<Grafica> listaYears = new ArrayList<>();
                 //LLamamos el método
                 GraficasDAO gDAO = new GraficasDAO();
                 listaVenta = gDAO.graficarVenta(year);
+                listaYears = gDAO.traerFechas();
                 //FOREACH PARA MOSTRAR VALORES
 
-                int k = 0;
-                for (Grafica f : listaVenta) {
-                    System.out.println("Esto trae en el mes " + (k + 1) + " " + f.getMes());
-                    System.out.println("Esto trae en el año " + (k + 1) + " " + f.getYear());
-                    System.out.println("Esto trae en el resultado " + (k + 1) + " " + f.getTotalGrafica());
-                    k++;
-                }
+//                int k = 0;
+//                for (Grafica f : listaVenta) {
+//                    System.out.println("Esto trae en el mes " + (k + 1) + " " + f.getMes());
+//                    System.out.println("Esto trae en el año " + (k + 1) + " " + f.getYear());
+//                    System.out.println("Esto trae en el resultado " + (k + 1) + " " + f.getTotalGrafica());
+//                    k++;
+//                }
                 sesion.setAttribute("year", year);
+
+                sesion.setAttribute("anos", listaYears);
                 sesion.setAttribute("Venta", listaVenta);
-                response.sendRedirect("ventas.jsp");
+//                response.sendRedirect("ventas.jsp");
+                request.getRequestDispatcher("ventas.jsp").forward(request, response);
                 break;
         }
     }

@@ -21,6 +21,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -40,7 +41,7 @@ public class RecuperarPass extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-
+        HttpSession sesion = request.getSession();
         String accion = request.getParameter("accion");
         RecuperarDAO rDAO = new RecuperarDAO();
         switch (accion) {
@@ -88,6 +89,7 @@ public class RecuperarPass extends HttpServlet {
                 }
                 break;
             case "FormularioRecuperar":
+                
                 String correoR = request.getParameter("usuario");
                 String codeR = request.getParameter("code");
                 int resultadoR = 0;
@@ -96,9 +98,10 @@ public class RecuperarPass extends HttpServlet {
                 resultadoR = cDAO.RecuperarCuenta(correoR, codeR);
 
                 if (resultadoR >0) {
-                    request.setAttribute("NoIngresar", "false");
-                    request.setAttribute("CorreoCambio", correoR);
-                    request.getRequestDispatcher("RecuperarContrasena.jsp").forward(request, response);
+                    sesion.setAttribute("NoIngresar", "false");
+                    sesion.setAttribute("CorreoCambio", correoR);
+                    sesion.setAttribute("EntrarRecuperar", 1);
+                    response.sendRedirect("RecuperarContrasena.jsp");
                 } else {
                     request.setAttribute("RecuperoContrasena", 0);
                     request.getRequestDispatcher("index.jsp").forward(request, response);
@@ -108,7 +111,6 @@ public class RecuperarPass extends HttpServlet {
                 String pass = request.getParameter("pass");
                 String correoF = request.getParameter("CorreoCam");
                 rDAO.cambiarPass(correoF, pass);
-                response.sendRedirect("index.jsp");
                 break;
         }
 

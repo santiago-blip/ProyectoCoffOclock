@@ -40,6 +40,7 @@
         <link href="assets/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet">
         <link href="assets/vendor/owl.carousel/assets/owl.carousel.min.css" rel="stylesheet">
         <link href="assets/css/style.css" rel="stylesheet">
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
         <!--Fin links boostrap-->
         <title>PE&Z</title>
     </head>
@@ -76,7 +77,7 @@
                                 <a class="nav-link" href="inventario.jsp">Inventario</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="ventas.jsp">Ventas</a>
+                                <a class="nav-link" href="ControllerGraficas?accion=VerGrafica">Ventas</a>
                             </li>
                         </ul>
                     </div>
@@ -141,14 +142,15 @@
     </body>
     <%
         if (sesion.getAttribute("ResultadoVenta") != null) {
-            if ((Integer) sesion.getAttribute("ResultadoVenta") > 0) {
-
+            if ((Integer) sesion.getAttribute("ResultadoVenta") == 2) {
+                sesion.setAttribute("ResultadoVenta",1);
     %>
-    <script>alert("Se hizo la venta con éxito");</script>
-    <%        } else {
-
+    <script>swal("¡Venta realizada!", "Se hizo la venta con exito", "success");</script>
+    <%        
+        } else if((Integer) sesion.getAttribute("ResultadoVenta") == 0) {
+          sesion.setAttribute("ResultadoVenta",3);
     %>
-    <script>alert("No se pudo realizar la venta porque uno de los productos agotó su cantidad");</script>
+    <script>swal("¡ERROR!", "No se pudo realizar la venta, uno de los productos se agotó", "error");</script>
     <%                }
         }
 
