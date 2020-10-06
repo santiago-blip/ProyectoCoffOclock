@@ -22,6 +22,7 @@ public class UsuariosDAO {
     PreparedStatement st = null;
     ResultSet rs = null;
     Encriptar enc = new Encriptar();
+    //En este método insertamos el usuario que se va a registrar en el sistema.
     public int insertarUsuario(Usuario usuario){
         int res = 0;
         try {
@@ -46,6 +47,7 @@ public class UsuariosDAO {
         return res;
     }
     
+    //Con este método buscamos el correo del usuario para verificar que no exista.
     public int buscarCorreo(Usuario usuario){
         int resultado = 0;
         try{
@@ -65,6 +67,8 @@ public class UsuariosDAO {
         }
         return resultado;
     }
+    
+    //Con este método se maneja la sesion y se determina si es admin,usuario o cuenta no verificada.
     public int Login(Usuario usuario){
         int encontrado=0;
         int rol = 0;
@@ -93,6 +97,8 @@ public class UsuariosDAO {
         }
         return encontrado;
     }
+    
+    //Con este método traemos el id del usuario que se logueó en el sistema.
     public int idUsuario(Usuario usuario){
         int id = 0;
         try {

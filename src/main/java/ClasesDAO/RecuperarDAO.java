@@ -21,7 +21,8 @@ public class RecuperarDAO {
     Connection con;
     PreparedStatement st;
     ResultSet rs;
-
+    
+    //Con este método se asigna el código para la recuperación de la contraseña.
     public int generarCodigo(String usuario, String code) {
         int resultado = 0;
         try {
@@ -39,6 +40,7 @@ public class RecuperarDAO {
         return resultado;
     }
 
+    //Este método cambia la contraseña.
     public void cambiarPass(String correo, String pass) {
         Encriptar enc = new Encriptar();
         try {

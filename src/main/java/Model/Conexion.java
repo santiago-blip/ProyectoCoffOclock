@@ -16,6 +16,8 @@ public class Conexion {
     private static PreparedStatement st = null;
     private static ResultSet rs = null;
     
+    
+    //Método para generar la conexión a bd.
     public static Connection conexion() {
         try {
             //Cargar driver de conexión.
@@ -30,6 +32,9 @@ public class Conexion {
         return con;
     }
 
+    
+    
+    //Método para cerrar el preparador de las consultas sql.
     public static void cerrar(PreparedStatement st) {
         if (st != null) {
             try {
@@ -39,7 +44,8 @@ public class Conexion {
             }
         }
     }
-
+    
+    //Método para cerrar la conexión a la bd.
     public static void cerrar(Connection con) {
         if (con != null) {
             try {
@@ -50,6 +56,7 @@ public class Conexion {
         }
     }
 
+    //Método para cerrar el resultado de las consultas.
     public static void cerrar(ResultSet rs) {
         if (rs != null) {
             try {

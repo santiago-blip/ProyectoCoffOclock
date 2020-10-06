@@ -19,7 +19,8 @@ public class ProductosDAO {
     Connection con;
     PreparedStatement st;
     ResultSet rs;
-
+    
+    //Con este método se inserta el producto del inventario de la cafetería.
     public int insertarProducto(Productos p) {
         int resultado = 0;
         try {
@@ -41,7 +42,7 @@ public class ProductosDAO {
         }
         return resultado;
     }
-
+    //Actualiza el producto de la cafetería.
     public void actualizarProducto(Productos p) {
         try {
             con = Conexion.conexion();
@@ -63,6 +64,7 @@ public class ProductosDAO {
         }
     }
 
+    //Con este método se busca un producto en especial.
     public int buscarProducto(Productos p) {
         int resultado = 0;
         try {
@@ -83,6 +85,7 @@ public class ProductosDAO {
         return resultado;
     }
 
+    //Método para eliminar el producto en el inventario y en el carrito del usuario si es que lo tiene.
     public void eliminarProducto(int id) {
         try {
             con = Conexion.conexion();
@@ -106,6 +109,7 @@ public class ProductosDAO {
         }
     }
 
+    //Método para traer la ruta de la imagen que haya entre los productos.
     public String TraerImagenNoBorrar(int id) {
         String ruta = null;
         try {
@@ -125,6 +129,7 @@ public class ProductosDAO {
         return ruta;
     }
 
+    //Insertamos la ruta de la imagen e investigmos si algun producto la tiene.
     public int ImagenNoBorrar(String ruta) {
         int resultado = 0;
         try {
@@ -143,7 +148,8 @@ public class ProductosDAO {
         }
         return resultado;
     }
-
+    
+    //Borramos la imagen de los archivos.
     public File buscarImgDelete(int id) {
         File archivo = null;
         try {

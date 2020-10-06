@@ -8,6 +8,7 @@
 <%@page import="javax.servlet.http.HttpSession" %>
 <%@page import="Controller.ControllerUser" %>
 <%@page import="Controller.RecuperarPass"  %>
+<%@page import="Controller.ControllerPedidosIndex"  %>
 
 <!DOCTYPE html>
 
@@ -65,7 +66,7 @@
                 </div>
                 <ul>
                     <li><a href="index.jsp" id="activo">Inicio</a></li>
-                    <li><a href="#">Pedidos</a></li>
+                    <li><a href="ControllerPedidosIndex?accion=verPedidoIndex">Productos</a></li>
                     <li><a href="" class="iniciar">Iniciar sesión</a></li>
                     <li><a href="" class="modalR">Registrarse</a></li>
                 </ul>

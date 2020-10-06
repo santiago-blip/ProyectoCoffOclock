@@ -32,12 +32,13 @@ public class ActivarCuenta extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
+           //Recibimos los parámetros que vienen del correo.
            String usuario = request.getParameter("usuario");
            String code = request.getParameter("code");
             ActivarCuentaDAO cDAO = new ActivarCuentaDAO();
            int resultado = cDAO.activarCuenta(usuario, code);
            
+           //Si el codigo existe, verifica el usuario, sino, le manda a una vista de error.
            if(resultado ==1){
                request.setAttribute("Activo", resultado);
            }else{

@@ -29,6 +29,7 @@ public class ControllerGraficas extends HttpServlet {
         HttpSession sesion = request.getSession();
         String accion = request.getParameter("accion");
         int year = 0;
+        //Esta condición es para recibir el año que el administrador quiere ver reflejado en las gráficas.
         if (request.getParameter("year") != null) {
             year = Integer.parseInt(request.getParameter("year"));
             System.out.println("ESTO AGARRA: " + year);
@@ -37,10 +38,11 @@ public class ControllerGraficas extends HttpServlet {
             LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
             year = localDate.getYear();
         }
+        //Este switch se utiliza para que este controlador haga múltiples tareas, ejecutando solamente la necesaria y no todo el servlet(Controlador).
         switch (accion) {
+            //Este caso,genera la información de la gráfica.
             case "VerGrafica":
-
-                //Establecer meses
+                //Establecer meses. Estos meses se establecen estáticos, porque todos los años solo tendrán 12 meses.
                 String listaFecha[] = new String[12];
                 listaFecha[0] = "ENERO";
                 listaFecha[1] = "FEBRERO";
@@ -72,10 +74,8 @@ public class ControllerGraficas extends HttpServlet {
 //                    k++;
 //                }
                 sesion.setAttribute("year", year);
-
                 sesion.setAttribute("anos", listaYears);
                 sesion.setAttribute("Venta", listaVenta);
-//                response.sendRedirect("ventas.jsp");
                 request.getRequestDispatcher("ventas.jsp").forward(request, response);
                 break;
         }

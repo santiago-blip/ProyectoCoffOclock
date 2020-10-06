@@ -1,9 +1,20 @@
 $(document).ready(function () {
     $(".btndeleteProducto").click(function () {
         var idProducto = $(this).parent().find(".idProductoEliminar").val();
-        if (confirm("¿Está Seguro de eliminar el registro?")) {
-            eliminar(idProducto);
-        }
+        swal({
+            title: "¿Seguro que quiere eliminar el producto?",
+            text: "Se eliminará el producto del carrito de compras",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then((willDelete) => {
+            if (willDelete) {
+                eliminar(idProducto);
+                swal("Se ha eliminado el producto");
+            } else {
+                swal("No se ha eliminado ningun producto");
+            }
+        });
     });
     function eliminar(id) {
         var url = "ControllerProductos?accion=EliminarProducto";
@@ -12,7 +23,7 @@ $(document).ready(function () {
             url: url,
             data: "Id_Producto=" + id,
             success: function (data, textStatus, jqXHR) {
-                alert("Registro eliminado");
+                
                 parent.location.href = "ControllerProductos?accion=IrVista";
             }
         });

@@ -50,6 +50,7 @@
         <link href="assets/vendor/owl.carousel/assets/owl.carousel.min.css" rel="stylesheet">
         <link href="assets/css/style.css" rel="stylesheet">
         <!--Fin links boostrap-->
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
         <title>PE&Z</title>
     </head>
 
@@ -273,8 +274,8 @@
         <script src="assets/js/main.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
-        <script src="js/jsEliminar.js"></script>
-        <script src="js/EliminarProducto.js"></script>
+        
+        <script src="js/EliminarProductos.js"></script>
         <!--Fin scripts-->
     </body>
 </html>

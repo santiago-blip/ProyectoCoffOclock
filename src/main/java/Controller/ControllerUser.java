@@ -57,10 +57,14 @@ public class ControllerUser extends HttpServlet {
         String accion = request.getParameter("accion");
         HttpSession sesion = request.getSession();
         UsuariosDAO Udao = new UsuariosDAO();
+        
+        //Este switch se utiliza para que este controlador haga múltiples tareas, ejecutando solamente la necesaria y no todo el servlet(Controlador).
         switch (accion) {
+            //El caso "Registrar" toma el usuario que se ha registrado y le envía el correo electrónico.
             case "Registrar":
-                            try {
+                try {
                 int resultadoCorreo = 0;
+                //Totamos los datos del usuario
                 String nombre = request.getParameter("nombre");
                 String apellido = request.getParameter("apellido");
                 String tipoDocumento = request.getParameter("tipoDoc");
@@ -72,6 +76,7 @@ public class ControllerUser extends HttpServlet {
                 boolean estado = false;
                 Usuario usuario = new Usuario(rol, nombre, apellido, tipoDocumento, documento, correo, password, estado, code);
                 resultadoCorreo = Udao.buscarCorreo(usuario);
+                //Se verifica que el correo no se encuentre registrado.
                 if (resultadoCorreo == 1) {
                     request.setAttribute("CorreoRegistrado", "1");
                 } else {
@@ -83,7 +88,7 @@ public class ControllerUser extends HttpServlet {
                     props.setProperty("mail.smtp.host", "smtp.gmail.com");
                     props.setProperty("mail.smtp.starttls.enable", "true");
                     props.setProperty("mail.smtp.port", "587");
-                    props.setProperty("mail.smtp.user", "Coffoclock@gmail.com");//correo de quien manda el correo.
+                    props.setProperty("mail.smtp.user", "Coffoclock@gmail.com");//correo de quien manda el mensaje.
                     props.setProperty("mail.smtp.auth", "true");
                     // Preparamos la sesion
                     Session session = Session.getDefaultInstance(props);
@@ -91,9 +96,8 @@ public class ControllerUser extends HttpServlet {
                     MimeMessage message = new MimeMessage(session);
                     // la persona k tiene k verificar
                     try {
-                        message.setFrom(new InternetAddress("Coffoclock@gmail.com"));//correo de quien manda el correo.
-                        message.addRecipient(Message.RecipientType.TO, new InternetAddress(correo)); //acá
-                        // message.addHeader("Disposition-Notification-To", "Coffoclock@gmail.com");
+                        message.setFrom(new InternetAddress("Coffoclock@gmail.com"));//correo de quien manda el mensaje.
+                        message.addRecipient(Message.RecipientType.TO, new InternetAddress(correo)); //Correo a quien se le manda el mensaje.
                         message.setSubject("Correo de verificación CoffoClock");
                         message.setText(
                                 " Este es un correo de verificación \n"
@@ -104,7 +108,7 @@ public class ControllerUser extends HttpServlet {
                                 + "'>Enlace</a>  ", "ISO-8859-1", "html");
                         // Envio de correo
                         Transport t = session.getTransport("smtp");
-                        t.connect("smtp.gmail.com", "Coffoclock@gmail.com", "Pry#2006"); //correo/contraseña de quien manda el correo.
+                        t.connect("smtp.gmail.com", "Coffoclock@gmail.com", "Pry#2006"); //correo/contraseña de quien manda el mensaje.
                         t.sendMessage(message, message.getAllRecipients());
                         t.close();
                     } catch (MessagingException e) {
@@ -117,6 +121,7 @@ public class ControllerUser extends HttpServlet {
             }
             request.getRequestDispatcher("index.jsp").forward(request, response);
             break;
+            //Este caso toma el logueo del usuario y determina si es administrador o usuario normal.
             case "Login":
                 String correo = request.getParameter("correoL");
                 String pass = request.getParameter("passL");
@@ -126,6 +131,7 @@ public class ControllerUser extends HttpServlet {
                 usuario.setCorreoElectronico_Usuario(correo);
                 usuario.setContrasena_Usuario(pass);
                 encontrado = Udao.Login(usuario);
+                //En las siguientes decisiones, verificamos si es administrador,usuario,si no ha verificado la cuenta y si se equivocó en los datos enviados.
                 if (encontrado == 2) {
 //                    sesion.setAttribute("logAdmin", "2");
 //                    response.sendRedirect("admon.jsp");
@@ -151,32 +157,10 @@ public class ControllerUser extends HttpServlet {
                     response.sendRedirect("index.jsp");
                 }
                 break;
+            //En este caso, se cierra la sesion.
             case "CerrarSesion":
                 String user = request.getParameter("user");
                 response.sendRedirect("index.jsp");
-//                switch (user) {
-//                    case "admin":
-//                        sesion.invalidate();
-//                        response.sendRedirect("admon.jsp");
-//                        break;
-//                    case "usuario":
-//                        sesion.invalidate();
-//                        response.sendRedirect("UsuarioLog.jsp");
-//                        break;
-//                    case "adminInv":
-//                        sesion.invalidate();
-//                        response.sendRedirect("inventario.jsp");
-//                        break;
-//                    case "adminPrd":
-//                        sesion.invalidate();
-//                        response.sendRedirect("productos.jsp");
-//                        break;
-//                    case "productosUs":
-//                        sesion.invalidate();
-//                        response.sendRedirect("productosUsLog.jsp");
-//                        break;
-//                }
-
         }
 
     }

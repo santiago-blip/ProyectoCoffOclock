@@ -44,7 +44,10 @@ public class RecuperarPass extends HttpServlet {
         HttpSession sesion = request.getSession();
         String accion = request.getParameter("accion");
         RecuperarDAO rDAO = new RecuperarDAO();
+        
+        //Este switch se utiliza para que este controlador haga múltiples tareas, ejecutando solamente la necesaria y no todo el servlet(Controlador).
         switch (accion) {
+            //La opcion "GenerarCodigo", recibe el correo del usuario para recuperar su contraseña.
             case "GenerarCodigo":
                 String correo = request.getParameter("RecuperarMail");
                 String code = this.getCadenaAlfanumAleatoria(8);
@@ -55,17 +58,16 @@ public class RecuperarPass extends HttpServlet {
                 props.setProperty("mail.smtp.host", "smtp.gmail.com");
                 props.setProperty("mail.smtp.starttls.enable", "true");
                 props.setProperty("mail.smtp.port", "587");
-                props.setProperty("mail.smtp.user", "Coffoclock@gmail.com");//correo de quien manda el correo.
+                props.setProperty("mail.smtp.user", "Coffoclock@gmail.com");//correo de quien manda el mensaje.
                 props.setProperty("mail.smtp.auth", "true");
                 // Preparamos la sesion
                 Session session = Session.getDefaultInstance(props);
                 // Contenido del mensaje
                 MimeMessage message = new MimeMessage(session);
-                // la persona k tiene k verificar
+                // la persona que tiene que verificar
                 try {
-                    message.setFrom(new InternetAddress("Coffoclock@gmail.com"));//correo de quien manda el correo.
-                    message.addRecipient(Message.RecipientType.TO, new InternetAddress(correo)); //acá
-                    // message.addHeader("Disposition-Notification-To", "Coffoclock@gmail.com");
+                    message.setFrom(new InternetAddress("Coffoclock@gmail.com"));//correo de quien manda el mensaje.
+                    message.addRecipient(Message.RecipientType.TO, new InternetAddress(correo)); //el parámetro es el correo de a quien se le manda el mensaje.
                     message.setSubject("Correo de recuperación de contraseña CoffoClock");
                     message.setText(
                             " Pulse el link para recuperar la contraseña \n"
@@ -73,7 +75,7 @@ public class RecuperarPass extends HttpServlet {
                             + "'>Enlace</a>  ", "ISO-8859-1", "html");
                     // Envio de correo
                     Transport t = session.getTransport("smtp");
-                    t.connect("smtp.gmail.com", "Coffoclock@gmail.com", "Pry#2006"); //correo/contraseña de quien manda el correo.
+                    t.connect("smtp.gmail.com", "Coffoclock@gmail.com", "Pry#2006"); //correo/contraseña de quien manda el mensaje.
                     t.sendMessage(message, message.getAllRecipients());
                     t.close();
                 } catch (MessagingException e) {
@@ -88,6 +90,7 @@ public class RecuperarPass extends HttpServlet {
                     request.getRequestDispatcher("index.jsp").forward(request, response);
                 }
                 break;
+            //El caso "FormularioRecuperar" recibe la información que viene del correo electrónico, y envía al formulario para cambiar la contraseña.
             case "FormularioRecuperar":
                 
                 String correoR = request.getParameter("usuario");
@@ -107,6 +110,7 @@ public class RecuperarPass extends HttpServlet {
                     request.getRequestDispatcher("index.jsp").forward(request, response);
                 }
                 break;
+            //Este caso recibe la contraseña nueva y la cambia.
             case "cambiar":
                 String pass = request.getParameter("pass");
                 String correoF = request.getParameter("CorreoCam");
@@ -115,7 +119,7 @@ public class RecuperarPass extends HttpServlet {
         }
 
     }
-
+    //Este método genera un código aleatorio
     public String getCadenaAlfanumAleatoria(int longitud) {
         String cadenaAleatoria = "";
         long milis = new java.util.GregorianCalendar().getTimeInMillis();

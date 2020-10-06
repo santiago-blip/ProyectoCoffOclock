@@ -28,6 +28,10 @@
         <servlet-name>ControllerGraficas</servlet-name>
         <servlet-class>Controller.ControllerGraficas</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ControllerPedidosIndex</servlet-name>
+        <servlet-class>Controller.ControllerPedidosIndex</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ControllerUser</servlet-name>
         <url-pattern>/ControllerUser</url-pattern>
@@ -55,6 +59,10 @@
     <servlet-mapping>
         <servlet-name>ControllerGraficas</servlet-name>
         <url-pattern>/ControllerGraficas</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ControllerPedidosIndex</servlet-name>
+        <url-pattern>/ControllerPedidosIndex</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -4,6 +4,14 @@
     Author     : santi
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.List"%>
+<%@page import="Clases.Productos"%>
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.PreparedStatement"%>
+<%@page import="java.sql.Connection"%>
+<%@page import="Model.Conexion"%>
 <%
     response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
     HttpSession sesion = request.getSession();
@@ -43,6 +51,7 @@
         <link href="assets/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet">
         <link href="assets/vendor/owl.carousel/assets/owl.carousel.min.css" rel="stylesheet">
         <link href="assets/css/style.css" rel="stylesheet">
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
         <!--Fin links boostrap-->
         <title>PE&Z</title>
     </head>
@@ -111,7 +120,7 @@
         <!--Fin menú lateral-->
         <!--Inicio formulario-->
         <div class="formularioProductos">
-            <div class="contenerProducto" style="height:650px">
+            <div class="contenerProducto" style="height:670px">
                 <form class="formulario" action="ControllerProductos?accion=insertar" method="POST" enctype="multipart/form-data">
                     <label for="Nombre">Nombre</label>
                     <input type="text" name="NombreP" id="Nombre" class="input" required>
@@ -148,30 +157,43 @@
         </div>
 
         <!--        
-        onchange="validateFileType()"
-        <script type="text/javascript">
-            function validateFileType() {
-                var fileName = document.getElementById("fileName").value;
-                var idxDot = fileName.lastIndexOf(".") + 1;
-                var extFile = fileName.substr(idxDot, fileName.length).toLowerCase();
-                if (extFile === "jpg" || extFile === "jpeg" || extFile === "png") {
-                    //TO DO
-                } else {
-                    alert("Only jpg/jpeg and png files are allowed!");
-                }
-            }
-        </script> -->
+   
         <!--Fin formulario-->
+        <%
+            String nombre = "";
+            Productos p = null;
+            List<Productos> listaProducto = new ArrayList<>();
+            try {
+                Connection con = Conexion.conexion();
+                PreparedStatement st = con.prepareStatement("SELECT Nombre_Producto FROM tbl_productos WHERE Cantidad_Producto =0");
+                ResultSet rs = st.executeQuery();
+                while (rs.next()) {
+                    p = new Productos();
+                    p.setNombre_Producto(rs.getString("Nombre_Producto"));
+                    listaProducto.add(p);
+                }
+                
+            } catch (Exception e) {
+                System.out.println("No se pudo traer el producto agotado");
+            }
+        %>
 
+            <%
+            System.out.println("Lista es: "+listaProducto.size());
+            if(listaProducto.size()==1){%>
+                <script>swal("¡Producto agotado!", "Se ha agotado el siguiente producto:<%=listaProducto.get(0).getNombre_Producto()%> ", "info");</script>
+       <%}else if(listaProducto.size()>1){%>
+                <script>swal("¡Producto agotado!", "Se han agotado varios productos ", "info");</script>
+<%}%>
         <!--Scripts-->
         <%
             String validar = (String) request.getAttribute("Existe");
             if (validar != null) {
                 if (validar.equals("1")) {
         %>
-        <script>alert("Producto agregado");</script>
+        <script>swal("¡Producto agregado!", "Se ha agregado el producto al inventario.", "success");</script>
         <%} else if (validar.equals("2")) {%>
-        <script>alert("El producto que intenta registrar ya fue agregado");</script>
+        <script>swal("¡ERROR!", "El producto que intenta registrar, ya fue ingresado.", "error");</script>
         <%}
             }%>
         <!-- Vendor JS Files -->

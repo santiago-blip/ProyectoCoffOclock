@@ -47,19 +47,23 @@ public class ControllerProductos extends HttpServlet {
         Productos productos = new Productos();
         System.out.println("Accion: " + accion);
          HttpSession sesion = request.getSession();
+         //Este switch se utiliza para que este controlador haga múltiples tareas, ejecutando solamente la necesaria y no todo el servlet(Controlador).
         switch (accion) {
+            //este caso inserta los productos que el administrador digite.
             case "insertar":
                 File f = null;
                 ArrayList<String> lista = new ArrayList();
                 try {
+                    //Creamos variables para leer archivos
                     FileItemFactory file = new DiskFileItemFactory();
                     ServletFileUpload fileUpload = new ServletFileUpload(file);
                     List items = fileUpload.parseRequest(request);
+                    //Recorre los items, que en este caso serían los inputs del formulario que envía el admin.
                     for (int i = 0; i < items.size(); i++) {
                         FileItem fileItem = (FileItem) items.get(i);
                         if (!fileItem.isFormField()) {
+                            //Si entra en esta condición, quiere decir que es un archivo, entonces le damos la ruta donde queremos que se guarde.
                             f = new File("D:\\ProgramasDevops\\NetBeans\\CoffOclock\\src\\main\\webapp\\imgProductos\\" + fileItem.getName());
-//                            D:\ProgramasDevops\NetBeans\CoffOclock\target\CoffOclock-1.0-SNAPSHOT\imgProductos
                             if (!f.exists()) {
                                 fileItem.write(f);
                                 productos.setRutaImg_Producto("imgProductos/" + f.getName());
@@ -84,6 +88,7 @@ public class ControllerProductos extends HttpServlet {
                     System.out.println("Descripcion: " + productos.getDescripcion_Producto());
                     int resultado = 0;
                     resultado = pDAO.buscarProducto(productos);
+                    //En esta condición,verificamos que el producto no haya sido ingresado anteriormente.
                     if (resultado == 2) {
                         request.setAttribute("Existe", "2");
                         File fichero = f;
@@ -103,6 +108,7 @@ public class ControllerProductos extends HttpServlet {
                 }
                 request.getRequestDispatcher("inventario.jsp").forward(request, response);
                 break;
+            //En este caso editamos el producto y manipulamos sus archivos.
             case "EditarProducto":
                 if(sesion.getAttribute("log") == null){
                     response.sendRedirect("FormularioEdit.jsp");
@@ -110,13 +116,17 @@ public class ControllerProductos extends HttpServlet {
                 File fEdit = null;
                 ArrayList<String> listaEdit = new ArrayList();
                 try {
+                    //Se cargan todos los archivos e inputs que manda el formulario.
                     FileItemFactory file = new DiskFileItemFactory();
                     ServletFileUpload fileUpload = new ServletFileUpload(file);
                     List items = fileUpload.parseRequest(request);
+                    //Recorremos todos los items que serían los inputs del formulario.
                     for (int i = 0; i < items.size(); i++) {
                         FileItem fileItem = (FileItem) items.get(i);
                         if (!fileItem.isFormField()) {
+                            //Si la imagen que cambia el administrador no existía antes, la agregamos.
                             fEdit = new File("D:\\ProgramasDevops\\NetBeans\\CoffOclock\\src\\main\\webapp\\imgProductos\\" + fileItem.getName());
+                            //Si la imagen ya existía, solo agregamos el nombre
                             if (!fEdit.exists()) {
                                 fileItem.write(fEdit);
                                 productos.setRutaImg_Producto("imgProductos/" + fEdit.getName());//prueba
@@ -153,19 +163,6 @@ public class ControllerProductos extends HttpServlet {
                     productos.setDescripcion_Producto(listaEdit.get(1));
                     productos.setFechaVen_Producto(listaEdit.get(5));
                     productos.setIdProducto(Integer.parseInt(listaEdit.get(6)));
-//                    int resultado = 0;
-//                    resultado = pDAO.buscarProducto(productos);
-//                    if (resultado == 2) {
-//                        request.setAttribute("Existe", "2");
-//                        File fichero = fEdit;
-//                        if (fichero != null && fichero.exists()) {
-//                            if (fichero.delete()) {
-//                                System.out.println("El fichero ha sido borrado satisfactoriamente");
-//                            } else {
-//                                System.out.println("El fichero no puede ser borrado");
-//                            }
-//                        }
-//                    }
                     pDAO.actualizarProducto(productos);
                 } catch (Exception e) {
                     System.out.println("Error al editar el producto: " + e);
@@ -173,6 +170,7 @@ public class ControllerProductos extends HttpServlet {
                 //request.getRequestDispatcher("productos.jsp").forward(request, response);
                 response.sendRedirect("productos.jsp");}
                 break;
+            //Eliminar un producto y su archivo
             case "EliminarProducto":
                 int id = Integer.parseInt(request.getParameter("Id_Producto"));
                 File fichero = null;
@@ -185,6 +183,7 @@ public class ControllerProductos extends HttpServlet {
                 resultado = pDAO.ImagenNoBorrar(ruta);
                 System.out.println("El resultado que trae es: "+resultado); //Verificaciones(borrable)
                 System.out.println("El fichero es: "+fichero);//Verificaciones(borrable)
+                //En esta condición, se verifica si el fichero existe, si existe puede ser borrado, pero si existe y está siendo utilizado, no puede ser borrado.
                 if (resultado ==1) {
                     if (fichero.delete()){
                         System.out.println("El fichero ha sido borrado satisfactoriamente");
@@ -197,8 +196,10 @@ public class ControllerProductos extends HttpServlet {
                 pDAO.eliminarProducto(id);
                 request.getRequestDispatcher("productos.jsp").forward(request, response);
                 break;
+            //Este caso solo funciona para redirigir a una vista, se usa para cargar peticiones que se hacen dentro del mismo controlador.
             case "IrVista":
-                request.getRequestDispatcher("productos.jsp").forward(request, response);
+                response.sendRedirect("productos.jsp");
+//                request.getRequestDispatcher("productos.jsp").forward(request, response);
                 break;
         }
     }

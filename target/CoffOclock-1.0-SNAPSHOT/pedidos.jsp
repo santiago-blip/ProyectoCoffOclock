@@ -108,7 +108,7 @@
             <div class="row">
                 <c:if test="${ListaPADMON.size()==0}">
                     <div class="alert alert-danger col-6 m-auto text-lg-center" role="alert">
-                        ¡A simple danger alert—check it out!
+                        ¡No hay pedidos para mostrar!
                     </div>
                 </c:if>
                 <c:forEach var="P" items="${ListaPADMON}">

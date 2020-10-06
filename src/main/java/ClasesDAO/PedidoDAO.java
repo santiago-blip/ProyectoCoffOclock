@@ -16,7 +16,7 @@ public class PedidoDAO {
     PreparedStatement st;
     ResultSet rs;
     int r = 0;
-
+    //Con este método se genera el pedido.
     public void generarPedido(Pedido p) {
         if(p.getCantidad_Producto()>0){
         try {
@@ -42,6 +42,7 @@ public class PedidoDAO {
         }
     }
     }
+    //Con este método traemos todos los productos del carrito de compras que concuerde con el usuario actual.
     public List<Carrito> SeleccionarCarro(int id) {
         List<Carrito> lista = new ArrayList<>();
         Carrito car;
@@ -84,7 +85,7 @@ public class PedidoDAO {
         return lista;
     }
     int ident;
-
+    //Con este método traemos el último identificador que haya en la bd.
     public int ident() {
         try {
             con = Conexion.conexion();

@@ -41,18 +41,18 @@ public class ControllerPedidosADMIN extends HttpServlet {
         HttpSession sesion = request.getSession();
         String accion = request.getParameter("accion");
         PedidosADMONDAO PadminDAO = new PedidosADMONDAO();
+        //Este switch se utiliza para que este controlador haga múltiples tareas, ejecutando solamente la necesaria y no todo el servlet(Controlador).
         switch (accion) {
+            //Este caso carga todos los pedidos que se hayan realizado por los usuarios.
             case "verPedidos":
                 List<PedidosADMON> listaPadmin = new ArrayList<>();
                 listaPadmin = PadminDAO.retornarTodo();
                 //Primer listado para posiciones
-//        List<List> listaPadminResultado = new ArrayList<>();
-//        listaPadminResultado = PadminDAO.retornarPedidos(listaPadmin);
                 //Listado para resultado
                 sesion.setAttribute("ListaPADMON", listaPadmin);
-//                request.getRequestDispatcher("pedidos.jsp").forward(request, response);
                 response.sendRedirect("pedidos.jsp");
                 break;
+            //Este caso carga un pedido y ve los productos que pidió el cliente.
             case "verCliente":
                int identificador = Integer.parseInt(request.getParameter("identificador"));
                List<PedidosADMON> Padmin = new ArrayList<>();
@@ -63,6 +63,7 @@ public class ControllerPedidosADMIN extends HttpServlet {
                request.setAttribute("Usuario", Padmin);
                request.getRequestDispatcher("UsuarioPedido.jsp").forward(request, response);
                break;
+            //Este caso realiza la venta del pedido.
             case "RealizarVenta":
                 int identificadorVenta = Integer.parseInt(request.getParameter("identificadorVenta"));
                 int resultado = 0;

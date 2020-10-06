@@ -19,7 +19,7 @@ public class PedidosADMONDAO {
     Connection con;
     PreparedStatement st;
     ResultSet rs;
-
+    //Este metodo trae todos los pedidos que se han realizado.
     public List<PedidosADMON> retornarTodo() {
         List<PedidosADMON> lista = new ArrayList<>();
         PedidosADMON p;
@@ -48,12 +48,9 @@ public class PedidosADMONDAO {
         return lista;
     }
 
+    //Este metodo trae solamente 1 pedido y el usuario que lo realizó.
     public List<PedidosADMON> retornarCliente(int identificador) {
-        List<PedidosADMON> lista = new ArrayList<>();
-//        List<String> listaNombre = new ArrayList<>();
-//        List<Double> listaPrecioU = new ArrayList<>(); 
-//        List<Integer> listaCantidad = new ArrayList<>(); 
-//        List<Double> listaTotalPrecio = new ArrayList<>(); 
+        List<PedidosADMON> lista = new ArrayList<>(); 
         PedidosADMON p = null;
         try {
             con = Conexion.conexion();

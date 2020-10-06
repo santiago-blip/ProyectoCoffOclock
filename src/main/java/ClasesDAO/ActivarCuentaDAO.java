@@ -13,7 +13,7 @@ public class ActivarCuentaDAO {
     ResultSet rs;
 
 
-
+    //Este método activa la cuenta que se haya registrado.
     public int activarCuenta(String user, String code) {
         int activar = 0;
         System.out.println("Ya entró a actualizar");
@@ -42,7 +42,7 @@ public class ActivarCuentaDAO {
         }
         return activar;
     }
-
+    //Con este método se crea un nuevo código para recuperar la contraseña.
     public int RecuperarCuenta(String user, String code) {
         int realizado = 0;
         try {

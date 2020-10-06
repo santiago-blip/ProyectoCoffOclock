@@ -16,6 +16,7 @@ public class CarritoDAO {
     PreparedStatement st;
     ResultSet rs;
 
+    //Traemos todos los productos del inventario de la cafetería.
     public List<Productos> listarProductos() {
         List<Productos> listado = new ArrayList();
         Productos p;
@@ -35,7 +36,7 @@ public class CarritoDAO {
         }
         return listado;
     }
-
+    //Seleccionamos el producto que se agregará en el carrito.
     public Productos ProductoAgregar(int id) {
         Productos p = new Productos();
         try {
@@ -61,7 +62,8 @@ public class CarritoDAO {
         }
         return p;
     }
-
+    
+    //Agregamos lo que hay en el carro a la base de datos
     public void agregarCarroBD(Carrito c) {
         try {
             con = Conexion.conexion();
@@ -98,6 +100,7 @@ public class CarritoDAO {
         }
     }
 
+    //Este método lista todo el carrito que corresponda con el usuario logueado.
     public List<Carrito> listarCarrito(int id) {
         Carrito car = null;
         List<Carrito> lista = new ArrayList<>();
@@ -143,6 +146,7 @@ public class CarritoDAO {
         return lista;
     }
 
+    //Actualizamos la cantidad de productos con el carrito y cambiamos su valor total.
     public void ActualizarCantidadCC(int cantidad, double precio, int idP, int idU) {
         try {
             con = Conexion.conexion();
@@ -159,7 +163,8 @@ public class CarritoDAO {
             Conexion.cerrar(st);
         }
     }
-
+    
+    //Eliminamos el producto de la bd del carrito.
     public void EliminarCarro(int idP, int idUser) {
         try {
             con = Conexion.conexion();

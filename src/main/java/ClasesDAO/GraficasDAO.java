@@ -15,6 +15,7 @@ public class GraficasDAO {
     PreparedStatement st;
     ResultSet rs;
 
+    //Con este método traemos la suma total de los meses segun el año.
     public List<Grafica> graficarVenta(int year) {
         List<Grafica> lista = new ArrayList<>();
         Grafica f;

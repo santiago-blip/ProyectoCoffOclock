@@ -51,8 +51,9 @@ public class ControllerCarrito extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         CarritoDAO cDAO = new CarritoDAO();
         HttpSession sesion = request.getSession();
+        //Este switch se utiliza para que este controlador haga múltiples tareas, ejecutando solamente la necesaria y no todo el servlet(Controlador).
         switch (request.getParameter("accion")) {
-
+            //Este caso muestra todos los productos que hay en la cafetería.
             case "verProductos":
                 List<Productos> listado = new ArrayList<>();
                 listado = cDAO.listarProductos();
@@ -61,10 +62,12 @@ public class ControllerCarrito extends HttpServlet {
 //                request.getRequestDispatcher("productosUsLog.jsp").forward(request, response);
                 response.sendRedirect("productosUsLog.jsp");
                 break;
+            //Este caso agrega los productos al carrito.
             case "agregarCarro":
                 cantidad = 1;
                 id = Integer.parseInt(request.getParameter("id"));
                 p = cDAO.ProductoAgregar(id);
+                //Verificamos que el producto de la cafetería sea mayor a 0, sino es así, no puede ser agregado.
                 if(p.getCantidad_Producto()==0){
                     System.out.println("No se puede agregar el producto porque no hay");
                 }else{
@@ -85,12 +88,13 @@ public class ControllerCarrito extends HttpServlet {
                 }
                 sesion.setAttribute("Contador", cDAO.listarCarrito((int) sesion.getAttribute("IdUsuario")).size());
                 request.getRequestDispatcher("ControllerCarrito?accion=verProductos").forward(request, response);
-//                request.getRequestDispatcher("ControllerCarrito?accion=EnviarAproductos").forward(request, response);
                 break;
+            //Cuando el usuario decida cambiar la cantidad del producto se envía acá la información y se modifica su cantidad y el precio.
             case "ActualizarCantidad":
                 int idPCamb = Integer.parseInt(request.getParameter("idCAMB"));
                 int cantidadCamb = Integer.parseInt(request.getParameter("cantidadCamb"));
                 int idUser = (Integer) sesion.getAttribute("IdUsuario");
+                //iteramos el arreglo y cambiamos el precio y la cantidad.
                 for (int i = 0; i < listaCarro.size(); i++) {
                     if (listaCarro.get(i).getIdProducto() == idPCamb) {
                         double pagar = listaCarro.get(i).getPrecio_producto();
@@ -99,10 +103,12 @@ public class ControllerCarrito extends HttpServlet {
                     }
                 }
                 break;
+            //Este caso lista todo los productos agregados por el usuario.
             case "MostrarCarro":
                 totalPagar = 0.0;
                 listaCarro = cDAO.listarCarrito((int) sesion.getAttribute("IdUsuario"));
                 sesion.setAttribute("ListadoCarro", listaCarro);
+                //Este ciclo genera el total a pagar del pedido sumando todos los totales de los productos.
                 for (int i = 0; i < listaCarro.size(); i++) {
                     totalPagar = totalPagar + listaCarro.get(i).getPrecioPagar();
                 }
@@ -111,13 +117,14 @@ public class ControllerCarrito extends HttpServlet {
                 sesion.setAttribute("TotalPagar", totalPagar);
                 response.sendRedirect("carrito.jsp");
                 break;
+            //Este caso elimina el producto que el usuario quiera sacar del carrito.    
             case "EliminarCarrito":
                 int idC = Integer.parseInt(request.getParameter("idC"));
                 int idUserE = (Integer) sesion.getAttribute("IdUsuario");
                 cDAO.EliminarCarro(idC,idUserE);
                 sesion.setAttribute("Contador",  cDAO.listarCarrito((int) sesion.getAttribute("IdUsuario")).size());
-//                request.getRequestDispatcher("ControllerCarrito?accion=MostrarCarro").forward(request, response);
                 break;
+            //Este caso hace el pedido y manda los productos que tenga el usuario en ese momento.
             case "GenerarCompra":
                 int idCliente = (int) sesion.getAttribute("IdUsuario");
                 List<Carrito> listarCarroP = new ArrayList<>();
@@ -134,6 +141,7 @@ public class ControllerCarrito extends HttpServlet {
                 String fecha = Fecha.Fecha();
 //                   String fecha = new Date().toString();
                 boolean estado = false;
+                //Con este ciclo, se envían todos los productos al pedido
                 for(int i=0;i<listarCarroP.size();i++){
                     Pedido pedido = new Pedido(identificador, listarCarroP.get(i).getIdUsuario(),codigo, listarCarroP.get(i).getNombre_Producto(), listarCarroP.get(i).getPrecio_producto(), listarCarroP.get(i).getCantidad_Producto(), listarCarroP.get(i).getPrecioPagar(), estado, fecha, totalPagar,listarCarroP.get(i).getIdProducto());
                     System.out.println("EL ID QUE TRAE ES : "+listarCarroP.get(i).getIdProducto());
@@ -144,12 +152,11 @@ public class ControllerCarrito extends HttpServlet {
                 }else{
                     sesion.setAttribute("Pedido", "no");
                 }
-                
                 request.getRequestDispatcher("ControllerCarrito?accion=MostrarCarro").forward(request, response);
                 break;
         }
     }
-
+    //Genera un código aleatorio.
     public String getCodigoPedido(int longitud) {
         String cadenaAleatoria = "";
         long milis = new java.util.GregorianCalendar().getTimeInMillis();
