@@ -1,0 +1,25 @@
+# ProyectoCoffOclock
+CREATE DATABASE proyecto;
+USE proyecto;
+CREATE TABLE Tbl_Rol (Id_Rol INT AUTO_INCREMENT PRIMARY KEY NOT NULL,Nombre_Rol VARCHAR(15));
+CREATE TABLE Tbl_Usuarios (Id_Usuario INT AUTO_INCREMENT PRIMARY KEY NOT NULL,Id_Rol INT,Nombre_Usuario VARCHAR(20),Apellido_Usuario VARCHAR(25),TipoDocumento_Usuario VARCHAR(25),DocumentoIdentidad_Usuario VARCHAR(10),CorreoElectronico_Usuario VARCHAR(40) NOT NULL,Contrasena_Usuario VARCHAR(32) NOT NULL,Estado_Usuario boolean,Codigo_Usuario varchar(8),FOREIGN KEY(Id_Rol) REFERENCES Tbl_Rol(Id_Rol));
+CREATE TABLE Tbl_Productos (Id_Producto INT AUTO_INCREMENT PRIMARY KEY,Descripcion_Producto VARCHAR(70),Nombre_Producto VARCHAR(20),Categoria_Producto VARCHAR(10),Precio_Producto DOUBLE,RutaImg_Producto varchar(250),Cantidad_Producto INT,FechaVen_Producto DATE);
+CREATE TABLE Tbl_CCompras (Id_Carrito INT AUTO_INCREMENT PRIMARY KEY, Id_Usuario INT, Id_Producto INT, Descripcion_Producto VARCHAR(70), Nombre_Producto VARCHAR(25), Precio_Producto DOUBLE, Cantidad_Producto INT, Precio_Pagar DOUBLE,RutaImg_Producto varchar(250), FOREIGN KEY (Id_Usuario) REFERENCES Tbl_Usuarios(Id_Usuario),FOREIGN KEY (Id_Producto) REFERENCES Tbl_Productos(Id_Producto));
+CREATE TABLE Tbl_Pedidos (Identificador_Pedido INT, Id_Pedido INT AUTO_INCREMENT PRIMARY KEY NOT NULL,Id_Usuario INT, Codigo_pedido VARCHAR(10), Id_Producto INT, Nombre_Producto VARCHAR(20), Precio_Producto DOUBLE, Cantidad_Producto INT, Total_Producto DOUBLE, Estado_Pedido BOOLEAN, Fecha_Pedido DATETIME, Precio_Pedido DOUBLE);
+CREATE TABLE Tbl_HistorialPedidos (Identificador_Pedido INT, Id_Pedido INT,Id_Usuario INT, Codigo_pedido VARCHAR(10), Id_Producto INT, Nombre_Producto VARCHAR(20), Precio_Producto DOUBLE, Cantidad_Producto INT, Total_Producto DOUBLE, Estado_Pedido BOOLEAN, Fecha_Pedido DATETIME, Precio_Pedido DOUBLE);
+CREATE TABLE Tbl_Ventas (Id_Venta INT AUTO_INCREMENT PRIMARY KEY,Id_Pedido INT,IdentificadorPedido INT,Total_Venta DOUBLE,Fecha_Venta DATETIME, Codigo_Pedido VARCHAR(10));
+
+INSERT INTO Tbl_Rol () VALUES (1,'Usuario');
+INSERT INTO Tbl_Rol () VALUES (2,'Administrador');
+
+
+USE proyecto;
+
+CREATE EVENT borrador
+  ON SCHEDULE EVERY 10 SECOND
+  DO
+    DELETE FROM tbl_pedidos
+     
+     
+SET GLOBAL event_scheduler = ON;
+SET GLOBAL event_scheduler = OFF;
